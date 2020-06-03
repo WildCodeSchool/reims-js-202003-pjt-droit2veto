@@ -6,8 +6,8 @@ POST http://localhost:8000/users
 Content-Type: application/json
 
 {
-    "lastname": "Ladisse",
-    "firstname": "Dop",
+    "lastname": "Juju",
+    "firstname": "Labringue",
     "ordinal_number": "041768"
 }
 
@@ -20,4 +20,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8000/users/2
+DELETE http://localhost:8000/users/4

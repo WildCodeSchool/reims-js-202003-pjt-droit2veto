@@ -23,9 +23,9 @@ app.get('/', (request, response) => {
 app.get('/users', (req, res) => {
   connection.query('SELECT * from DVM_Legal_Entity', (err, results) =>{
     if(err) {
-        res.status(500).send('No body was here..')
+      res.status(500).send('No body was here..')
     } else {
-        res.json(results);
+      res.json(results);
     }
   })
 });
