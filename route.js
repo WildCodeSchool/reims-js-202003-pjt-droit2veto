@@ -24,9 +24,8 @@ app.get('/users', (req, res) => {
   connection.query('SELECT * from DVM_Legal_Entity', (err, results) =>{
     if(err) {
       res.status(500).send('No body was here..')
-    } else {
-      res.json(results);
     }
+    res.json(results);
   })
 });
 
@@ -34,9 +33,12 @@ app.get('/users/:id', (req, res) => {
   const { id } = req.params
   connection.query('SELECT * from DVM_Legal_Entity WHERE id = ?', id, (err, results) => {
     if(err) {
-      res.status(500).send('Nobody was here..')
+      res.status(500).send('Internal server error')
+    }
+    if (results.length === 0) {
+      res.status(404).send('User ID not found')
     } else {
-      res.json(results);
+      res.json(results)
     }
   })
 })
@@ -44,12 +46,13 @@ app.get('/users/:id', (req, res) => {
 app.post('/users', (req, res) => {
   const formData = req.body;
   connection.query('INSERT INTO DVM_Legal_Entity SET ?', formData, (err, results) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Erreur lors de la sauvegarde d'un DVM");
-    } else {
-      res.sendStatus(200);
+    if (err.code){
+      res.status(400).send("necessary field empty")
     }
+    if (err) {
+      res.status(500).send("Erreur lors de la sauvegarde d'un DVM");
+    }
+    res.status(201).send('coucou steph')
   });
 });
 

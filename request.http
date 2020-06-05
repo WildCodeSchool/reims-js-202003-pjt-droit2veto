@@ -6,9 +6,9 @@ POST http://localhost:8000/users
 Content-Type: application/json
 
 {
-    "lastname": "Juju",
-    "firstname": "Labringue",
-    "ordinal_number": "041768"
+    "lastname": "",
+    "firstname": "Angel",
+    "ordinal_number": ""
 }
 
 ###

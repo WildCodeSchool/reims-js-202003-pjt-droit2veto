@@ -2,7 +2,7 @@
   "name": "reims-js-202003-pjt-droit2veto",
   "version": "1.0.0",
   "description": "",
-  "main": "conf.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
