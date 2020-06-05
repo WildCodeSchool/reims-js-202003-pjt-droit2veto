@@ -70,6 +70,11 @@ app.put('/users/:id', (req, res) => {
   const idDVM = req.params.id;
   const formData = req.body;
 
+  if (Number(idDVM)!==NaN) {
+    return (
+      res.status(400).send("No correct ID")
+    )
+  }
   connection.query('UPDATE DVM_Legal_Entity SET ? WHERE id = ?', [formData, idDVM], (err, results) => {
     if (err) {
       return (

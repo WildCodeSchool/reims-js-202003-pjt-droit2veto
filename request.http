@@ -13,11 +13,11 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8000/users/9
+PUT http://localhost:8000/users/lg
 Content-Type: application/json
 
 {
-    "ordinal_number": "211"
+    "ordinal_number": "251"
 }
 
 ###
