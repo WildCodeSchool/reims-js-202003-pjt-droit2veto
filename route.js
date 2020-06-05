@@ -45,10 +45,10 @@ app.get('/users/:id', (req, res) => {
 
 app.post('/users', (req, res) => {
   const formData = req.body;
+  if (formData.ordinal_number === null || formData.lastname === null){
+    res.status(400).send("Necessary fields empty")
+  }
   connection.query('INSERT INTO DVM_Legal_Entity SET ?', formData, (err, results) => {
-    if (err.code){
-      res.status(400).send("necessary field empty")
-    }
     if (err) {
       res.status(500).send("Erreur lors de la sauvegarde d'un DVM");
     }
