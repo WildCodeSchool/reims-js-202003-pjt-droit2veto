@@ -6,17 +6,18 @@ POST http://localhost:8000/users
 Content-Type: application/json
 
 {
-    "lastname": "",
-    "firstname": "Angel",
-    "ordinal_number": ""
+    "lastname": "Dupont",
+    "firstname": "",
+    "ordinal_number": "48545",
+    "adress": "toto"
 }
 
 ###
-PUT http://localhost:8000/users/3
+PUT http://localhost:8000/users/9
 Content-Type: application/json
 
 {
-    "ordinal_number": "46458"
+    "ordinal_number": "211"
 }
 
 ###
