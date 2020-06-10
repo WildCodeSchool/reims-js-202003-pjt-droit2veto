@@ -2,6 +2,9 @@
 GET http://localhost:8000/users
 
 ###
+GET http://localhost:8000/users/3
+
+###
 POST http://localhost:8000/users
 Content-Type: application/json
 
@@ -13,12 +16,56 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8000/users/lg
+PUT http://localhost:8000/users/lo
 Content-Type: application/json
 
 {
-    "ordinal_number": "251"
+    "ordinal_number": "25100"
 }
 
 ###
-DELETE http://localhost:8000/users/4
+DELETE http://localhost:8000/users/9
+
+
+
+#####################################################################################
+
+
+
+###Look all activities
+GET http://localhost:8000/activities
+
+###Look one activity
+GET http://localhost:8000/activities/2
+
+
+### POST Add one activity
+POST http://localhost:8000/activities
+Content-Type: application/json
+
+{
+    "title": "Echographie",
+    "description": "L'échographie est une technique d'imagerie employant des ultrasons."
+}
+
+### PUT Change one activity
+PUT http://localhost:8000/activities/1
+Content-Type: application/json
+
+{
+    "title": "Médecine générale",
+    "description": "Lorem ipsum"
+}
+
+###DELETE one activity
+DELETE http://localhost:8000/activities/1
+
+
+####################################################################################
+
+
+###Look all PurchasesOrders
+GET http://localhost:8000/purchasesorders
+
+###Look one PurchasesOrders
+GET http://localhost:8000/purchasesorders/1
