@@ -1,2 +1,24 @@
+###Look table
+GET http://localhost:8000/users
+
 ###
-GET 
+POST http://localhost:8000/users
+Content-Type: application/json
+
+{
+    "lastname": "Dupont",
+    "firstname": "",
+    "ordinal_number": "48545",
+    "adress": "toto"
+}
+
+###
+PUT http://localhost:8000/users/lg
+Content-Type: application/json
+
+{
+    "ordinal_number": "251"
+}
+
+###
+DELETE http://localhost:8000/users/4
