@@ -1,14 +1,14 @@
-const connection = require('./conf');
+const connection = require('../conf');
 const express = require('express');
-const app = express();
-const port = 8000;
+
+const router = express.Router();
 
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
 
-products.delete('/products/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   const idProducts = req.params.id
 
   connection.query('DELETE FROM Products WHERE id = ?', [idProducts], err => {
@@ -22,7 +22,7 @@ products.delete('/products/:id', (req, res) => {
   });
 });
 
-products.put('/products/:id', (req, res) => {
+router.put('/:id', (req, res) => {
 
   const idProducts = req.params.id;
   const formData = req.body;
@@ -48,7 +48,7 @@ products.put('/products/:id', (req, res) => {
 
 });
 
-products.post('/products', (req, res) => {
+router.post('/', (req, res) => {
   const formData = req.body;
   if (formData.title === null) {
     return (
@@ -68,7 +68,7 @@ products.post('/products', (req, res) => {
   });
 });
 
-products.get('/products/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const { id } = req.params
   connection.query('SELECT * from products WHERE id = ?', id, (err, results) => {
     if (err) {
