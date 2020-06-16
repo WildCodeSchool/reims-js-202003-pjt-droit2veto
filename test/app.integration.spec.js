@@ -98,6 +98,17 @@ describe('Test Activities:', () => {
         done();
       });
   });
+  it('GET / Id Activities: ID not found', (done) => {
+    request(app)
+      .get('/activities/8')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "Activities ID not found" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
 
 
 });
