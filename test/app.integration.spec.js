@@ -112,3 +112,15 @@ it('GET / Id purchasesOrders : bad ID', (done) => {
       done();
     });
 });
+
+it('GET / Id purchasesOrders : ID not found', (done) => {
+  request(app)
+    .get('/users/15')
+    .expect(404)
+    .expect('Content-Type', /json/)
+    .then(response => {
+      const expected = { message: 'User ID not found' }
+      expect(response.body).toEqual(expected);
+      done();
+    });
+});
