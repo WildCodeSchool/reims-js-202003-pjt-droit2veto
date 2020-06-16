@@ -8,13 +8,13 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-products.delete('/products/:id', (req, res) => {
+products.delete('/:id', (req, res) => {
   const idProducts = req.params.id
 
   connection.query('DELETE FROM Products WHERE id = ?', [idProducts], err => {
     if (err) {
       return (
-        res.status(500).send("Internal server error")
+        res.status(500).json({message: "Internal server error"})
       )
     } else {
       res.sendStatus(200);
@@ -22,43 +22,43 @@ products.delete('/products/:id', (req, res) => {
   });
 });
 
-products.put('/products/:id', (req, res) => {
+products.put('/:id', (req, res) => {
 
   const idProducts = req.params.id;
   const formData = req.body;
 
   if (isNaN(idProducts)) {
     return (
-      res.status(400).send("No correct ID")
+      res.status(400).json({message:"No correct ID"})
     )
   }
   connection.query('UPDATE products SET ? WHERE id = ?', [formData, idProducts], (err, results) => {
     if (err) {
       return (
-        res.status(500).send("Error server")
+        res.status(500).json({message:"Error server"})
       )
     }
     if (results.changedRows === 0) {
       return (
-        res.status(404).send('User ID not found')
+        res.status(404).json({message:'User ID not found'})
       )
     }
-    res.status(200).send(`Changed row ${results.changedRows}`);
+    res.status(200).json({message:`Changed row ${results.changedRows}`});
   });
 
 });
 
-products.post('/products', (req, res) => {
+products.post('/', (req, res) => {
   const formData = req.body;
   if (formData.title === null) {
     return (
-      res.status(400).send("Necessary fields empty")
+      res.status(400).json({message:"Necessary fields empty"})
     )
   }
   connection.query('INSERT INTO Products SET ?', formData, (err, results) => {
     if (err) {
       return (
-        res.status(500).send("Internal server error")
+        res.status(500).json({message:"Internal server error"})
       )
     } else {
       return (
@@ -68,19 +68,32 @@ products.post('/products', (req, res) => {
   });
 });
 
-products.get('/products/:id', (req, res) => {
+products.get('/:id', (req, res) => {
   const { id } = req.params
   connection.query('SELECT * from products WHERE id = ?', id, (err, results) => {
     if (err) {
       return (
-        res.status(500).send('Internal server error')
+        res.status(500).json({message:'Internal server error'})
       )
     }
     if (results.length === 0) {
       return (
-        res.status(404).send('products ID not found')
+        res.status(404).json({message:'products ID not found'})
       )
     }
     res.json(results)
   })
 })
+
+products.get('/', (req, res) => {
+  const { id } = req.params
+  connection.query('SELECT * from products' , (err, results) => {
+    if (err) {
+      return (
+        res.status(500).json({message:'Internal server error'})
+      )
+    }
+    res.json(results)
+  })
+})
+
