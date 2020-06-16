@@ -11,7 +11,7 @@ describe('Test routes :', () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .then(response => {
-        const expected ={message: 'Bienvenue sur Express'};
+        const expected = { message: 'Bienvenue sur Express' };
         expect(response.body).toEqual(expected);
         done();
       });
@@ -19,6 +19,17 @@ describe('Test routes :', () => {
 });
 
 describe('Test DVM_Legal_Entity :', () => {
+  const testDVM = { lastname: 'Descartes', ordinal_number: '123456' };
+  beforeEach((done) =>
+    connection.query('SET FOREIGN_KEY_CHECKS = 0', () =>
+      connection.query('TRUNCATE DVM_Legal_Entity', () =>
+        connection.query('SET FOREIGN_KEY_CHECKS = 1', () =>
+          connection.query('INSERT INTO DVM_Legal_Entity SET ?', testDVM, done)
+        )
+      )
+    )
+  );
+
   it('GET / All DVM_Legal_Entity', (done) => {
     request(app)
       .get('/users')
@@ -34,22 +45,33 @@ describe('Test DVM_Legal_Entity :', () => {
       .expect(400)
       .expect('Content-Type', /json/)
       .then(response => {
-        const expected = {message: "No correct ID"}
+        const expected = { message: "No correct ID" }
         expect(response.body).toEqual(expected);
         done();
       });
   });
   it('GET / Id DVM_Legal_Entity : ID not found', (done) => {
     request(app)
-      .get('/users/15424155')
+      .get('/users/15')
       .expect(404)
       .expect('Content-Type', /json/)
       .then(response => {
-        const expected = {message: 'User ID not found'}
+        const expected = { message: 'User ID not found' }
         expect(response.body).toEqual(expected);
         done();
-      })
-  })
+      });
+  });
+  it('GET / Id DVM_Legal_Entity : Correct', (done) => {
+    request(app)
+      .get('/users/1')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { id: expect.any(Number), firstname: null, lastname: 'Descartes', ordinal_number: 123456 }
+        expect(response.body[0]).toEqual(expected)
+        done();
+      });
+  });
 });
 
 
