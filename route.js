@@ -1,7 +1,8 @@
+require('dotenv').config();
 const connection = require('./conf');
 const express = require('express');
 const app = express();
-const port = 8000;
+const port = process.env.port || 8000;
 
 app.use(express.json());
 app.use(express.urlencoded({
