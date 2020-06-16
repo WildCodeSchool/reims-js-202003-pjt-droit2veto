@@ -1,14 +1,8 @@
-const connection = require('./conf');
+const connection = require('../conf');
 const express = require('express');
-const app = express();
-const port = 8000;
+const router = express.Router();
 
-app.use(express.json());
-app.use(express.urlencoded({
-  extended: true
-}));
-
-products.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   const idProducts = req.params.id
 
   connection.query('DELETE FROM Products WHERE id = ?', [idProducts], err => {
@@ -22,7 +16,7 @@ products.delete('/:id', (req, res) => {
   });
 });
 
-products.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
 
   const idProducts = req.params.id;
   const formData = req.body;
@@ -32,7 +26,7 @@ products.put('/:id', (req, res) => {
       res.status(400).json({message:"No correct ID"})
     )
   }
-  connection.query('UPDATE products SET ? WHERE id = ?', [formData, idProducts], (err, results) => {
+  connection.query('UPDATE Products SET ? WHERE id = ?', [formData, idProducts], (err, results) => {
     if (err) {
       return (
         res.status(500).json({message:"Error server"})
@@ -48,7 +42,7 @@ products.put('/:id', (req, res) => {
 
 });
 
-products.post('/', (req, res) => {
+router.post('/', (req, res) => {
   const formData = req.body;
   if (formData.title === null) {
     return (
@@ -68,9 +62,9 @@ products.post('/', (req, res) => {
   });
 });
 
-products.get('/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const { id } = req.params
-  connection.query('SELECT * from products WHERE id = ?', id, (err, results) => {
+  connection.query('SELECT * from Products WHERE id = ?', id, (err, results) => {
     if (err) {
       return (
         res.status(500).json({message:'Internal server error'})
@@ -85,9 +79,8 @@ products.get('/:id', (req, res) => {
   })
 })
 
-products.get('/', (req, res) => {
-  const { id } = req.params
-  connection.query('SELECT * from products' , (err, results) => {
+router.get('/', (req, res) => {
+  connection.query('SELECT * from Products' , (err, results) => {
     if (err) {
       return (
         res.status(500).json({message:'Internal server error'})
@@ -97,3 +90,4 @@ products.get('/', (req, res) => {
   })
 })
 
+module.exports = router;
