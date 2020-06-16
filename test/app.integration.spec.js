@@ -100,3 +100,15 @@ describe('Test purchasesOrders:', () => {
       });
   });
 });
+
+it('GET / Id purchasesOrders : bad ID', (done) => {
+  request(app)
+    .get('/purchasesOrders/noId')
+    .expect(400)
+    .expect('Content-Type', /json/)
+    .then(response => {
+      const expected = { message: "No correct ID" }
+      expect(response.body).toEqual(expected);
+      done();
+    });
+});
