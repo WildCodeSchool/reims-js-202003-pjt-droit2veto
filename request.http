@@ -1,22 +1,21 @@
 ###Look table
-GET http://localhost:8000/users
+GET http://localhost:8000/api/users
 
 ###
-GET http://localhost:8000/users/3
+GET http://localhost:8000/api/users/1
 
 ###
-POST http://localhost:8000/users
+POST http://localhost:8000/api/users
 Content-Type: application/json
 
 {
     "lastname": "Dupont",
-    "firstname": "",
-    "ordinal_number": "48545",
-    "adress": "toto"
+    "firstname": "Paul",
+    "ordinal_number": "48545"
 }
 
 ###
-PUT http://localhost:8000/users/lo
+PUT http://localhost:8000/api/users/1
 Content-Type: application/json
 
 {
@@ -24,7 +23,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8000/users/9
+DELETE http://localhost:8000/api/users/2
 
 
 
@@ -33,14 +32,13 @@ DELETE http://localhost:8000/users/9
 
 
 ###Look all activities
-GET http://localhost:8000/activities
+GET http://localhost:8000/api/activities
 
 ###Look one activity
-GET http://localhost:8000/activities/2
-
+GET http://localhost:8000/api/activities/1
 
 ### POST Add one activity
-POST http://localhost:8000/activities
+POST http://localhost:8000/api/activities
 Content-Type: application/json
 
 {
@@ -49,7 +47,7 @@ Content-Type: application/json
 }
 
 ### PUT Change one activity
-PUT http://localhost:8000/activities/1
+PUT http://localhost:8000/api/activities/3
 Content-Type: application/json
 
 {
@@ -58,14 +56,22 @@ Content-Type: application/json
 }
 
 ###DELETE one activity
-DELETE http://localhost:8000/activities/1
+DELETE http://localhost:8000/api/activities/3
 
 
 ####################################################################################
 
 
 ###Look all PurchasesOrders
-GET http://localhost:8000/purchasesorders
+GET http://localhost:8000/api/purchasesorders
 
 ###Look one PurchasesOrders
-GET http://localhost:8000/purchasesorders/1
+GET http://localhost:8000/api/purchasesorders/1
+
+###POST Add a purchase
+POST http://localhost:8000/api/purchasesorders
+Content-Type: application/json
+
+{
+    "quantity": "2"
+}
