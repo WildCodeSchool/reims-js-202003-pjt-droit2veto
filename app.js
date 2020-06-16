@@ -9,16 +9,8 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-app.listen(port, (err) => {
-  if (err) {
-    throw new Error('Something bad happened...');
-  }
-  console.log(`Server is listening on ${port}`);
-});
-
-
 app.get('/', (request, response) => {
-  response.send('Bienvenue sur Express');
+  response.json({message: 'Bienvenue sur Express'} );
 });
 
 // route DVM
@@ -246,3 +238,5 @@ app.post('/purchasesorders', (req, res) => {
     }
   });
 });
+
+module.exports = app; 
