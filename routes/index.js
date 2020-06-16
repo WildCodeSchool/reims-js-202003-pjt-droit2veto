@@ -1,8 +1,8 @@
 const express = require('express');
 const users = require('./users');
 const activities = require('./activities');
-const purchasesOrders = require('./purchasesorders');
-const products = require('./products')
+const purchasesOrders = require('./purchasesOrders');
+const products = require('./products');
 
 
 
