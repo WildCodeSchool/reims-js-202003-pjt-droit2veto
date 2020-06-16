@@ -119,7 +119,7 @@ it('GET / Id purchasesOrders : ID not found', (done) => {
     .expect(404)
     .expect('Content-Type', /json/)
     .then(response => {
-      const expected = { message: 'PurchasesOrders ID not found'}
+      const expected = { message: 'PurchasesOrders ID not found' }
       expect(response.body).toEqual(expected);
       done();
     });
@@ -131,7 +131,7 @@ it('GET / Id purchasesOrders : Correct', (done) => {
     .expect(200)
     .expect('Content-Type', /json/)
     .then(response => {
-      const expected = {DVM_id:expect.any(Number), id: expect.any(Number),quantity: expect.any(Number), }
+      const expected = { DVM_id: expect.any(Number), id: expect.any(Number), quantity: expect.any(Number), }
       expect(response.body[0]).toEqual(expected)
       done();
     });
