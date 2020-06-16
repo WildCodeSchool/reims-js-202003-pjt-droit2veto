@@ -78,6 +78,16 @@ describe('Test DVM_Legal_Entity :', () => {
 
 
 describe('Test Activities:', () => {
+  const testActivities = { title: "echographie", description: "lorem ipsum", logo: null };
+  beforeEach((done) => 
+    connection.query('SET FOREIGN_KEY_CHECKS = 0', () => 
+      connection.query('TRUNCATE Activities', () =>
+        connection.query('SET FOREIGN_KEY_CHECKS = 1', () =>
+          connection.query('INSERT INTO Activities SET ?', testActivities, done)
+        )
+      )
+    )
+  );
   it('GET / All Activities', (done) => {
     request(app)
       .get('/activities')
@@ -109,6 +119,15 @@ describe('Test Activities:', () => {
         done();
       });
   });
-
-
+  it('GET / Id Activities: Correct', (done) => {
+    request(app)
+      .get('/activities/1')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { id: expect.any(Number), title: "echographie", description: "lorem ipsum", logo: null }
+        expect(response.body[0]).toEqual(expected);
+        done();
+      });
+  });
 });
