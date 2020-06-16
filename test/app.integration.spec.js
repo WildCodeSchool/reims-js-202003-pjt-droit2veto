@@ -30,7 +30,7 @@ describe('Test DVM_Legal_Entity :', () => {
     )
   );
 
-  it('GET / All DVM_Legal_Entity', (done) => {
+  it('GET / All', (done) => {
     request(app)
       .get('/users')
       .expect(200)
@@ -39,7 +39,7 @@ describe('Test DVM_Legal_Entity :', () => {
         done();
       });
   });
-  it('GET / Id DVM_Legal_Entity : bad ID', (done) => {
+  it('GET / bad ID', (done) => {
     request(app)
       .get('/users/noId')
       .expect(400)
@@ -50,7 +50,7 @@ describe('Test DVM_Legal_Entity :', () => {
         done();
       });
   });
-  it('GET / Id DVM_Legal_Entity : ID not found', (done) => {
+  it('GET / ID not found', (done) => {
     request(app)
       .get('/users/15')
       .expect(404)
@@ -61,7 +61,7 @@ describe('Test DVM_Legal_Entity :', () => {
         done();
       });
   });
-  it('GET / Id DVM_Legal_Entity : Correct', (done) => {
+  it('GET / Id Correct', (done) => {
     request(app)
       .get('/users/1')
       .expect(200)
@@ -72,6 +72,21 @@ describe('Test DVM_Legal_Entity :', () => {
         done();
       });
   });
+  it('POST / field missing', (done) => {
+    request(app)
+      .post('/users')
+      .send({
+        lastname: "",
+        ordinal_number: ""
+      })
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'Necessary fields are empty' }
+        expect(response.body).toEqual(expected);
+        done();
+      })
+  })
 });
 
 
