@@ -41,7 +41,7 @@ describe('Test DVM_Legal_Entity :', () => {
   });
   it('GET / Id DVM_Legal_Entity : ID not found', (done) => {
     request(app)
-      .get('users/15424155')
+      .get('/users/15424155')
       .expect(404)
       .expect('Content-Type', /json/)
       .then(response => {
