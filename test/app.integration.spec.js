@@ -74,6 +74,8 @@ describe('Test DVM_Legal_Entity :', () => {
   });
 });
 
+/* ------------------ ACTIVITIES TESTS --------------------- */
+
 
 describe('Test Activities:', () => {
   it('GET / All Activities', (done) => {
@@ -85,4 +87,17 @@ describe('Test Activities:', () => {
         done();
       });
   });
+  it('GET / Id Activities: bad ID', (done) => {
+    request(app)
+      .get('/activities/noId')
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "No correct ID" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+
+
 });
