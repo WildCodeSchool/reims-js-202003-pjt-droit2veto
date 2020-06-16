@@ -86,3 +86,17 @@ describe('Test Activities:', () => {
       });
   });
 });
+
+//test routes PurchasesOrders//
+
+describe('Test purchasesOrders:', () => {
+  it('GET / All purchasesOrders', (done) => {
+    request(app)
+      .get('/purchasesOrders')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        done();
+      });
+  });
+});
