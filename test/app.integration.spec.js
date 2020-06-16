@@ -115,12 +115,24 @@ it('GET / Id purchasesOrders : bad ID', (done) => {
 
 it('GET / Id purchasesOrders : ID not found', (done) => {
   request(app)
-    .get('/users/15')
+    .get('/purchasesOrders/15')
     .expect(404)
     .expect('Content-Type', /json/)
     .then(response => {
-      const expected = { message: 'User ID not found' }
+      const expected = { message: 'PurchasesOrders ID not found'}
       expect(response.body).toEqual(expected);
+      done();
+    });
+});
+
+it('GET / Id purchasesOrders : Correct', (done) => {
+  request(app)
+    .get('/purchasesOrders/1')
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .then(response => {
+      const expected = {DVM_id:expect.any(Number), id: expect.any(Number),quantity: expect.any(Number), }
+      expect(response.body[0]).toEqual(expected)
       done();
     });
 });
