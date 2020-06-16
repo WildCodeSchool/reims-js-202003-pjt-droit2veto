@@ -85,8 +85,23 @@ describe('Test DVM_Legal_Entity :', () => {
         const expected = { message: 'Necessary fields are empty' }
         expect(response.body).toEqual(expected);
         done();
+      });
+  });
+  it('POST / Correct', (done) => {
+    request(app)
+      .post('/users')
+      .send({ 
+        lastname: "Rousseau",
+        ordinal_number: "654321" 
       })
-  })
+      .expect(201)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = {id: expect.any(Number), lastname: "Rousseau", ordinal_number: "654321"}
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
 });
 
 
