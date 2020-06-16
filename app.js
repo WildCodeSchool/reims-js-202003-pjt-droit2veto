@@ -12,13 +12,8 @@ app.use(express.urlencoded({
 
 app.use('/api', api);
 
-app.listen(port, (err) => {
-  if (err) {
-    throw new Error('Something bad happened...');
-  }
-  console.log(`Server is listening on ${port}`);
+app.get('/', (request, response) => {
+  response.json({message: 'Bienvenue sur Express'} );
 });
 
-app.get('/', (request, response) => {
-  response.send('Bienvenue sur Express');
-});
+module.exports = app; 
