@@ -102,6 +102,45 @@ describe('Test DVM_Legal_Entity :', () => {
         done();
       });
   });
+  it('PUT / bad ID', (done) => {
+    request(app)
+      .put('/users/noId')
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "No correct ID" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('PUT / ID not found', (done) => {
+    request(app)
+      .put('/users/15')
+      .send({
+        firstname: 'René'
+      })
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'User ID not found' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('PUT / Id Correct', (done) => {
+    request(app)
+      .put('/users/1')
+      .send({
+        firstname: 'René'
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = {message: 'Changed row 1' }
+        expect(response.body).toEqual(expected)
+        done();
+      });
+  });
 });
 
 
