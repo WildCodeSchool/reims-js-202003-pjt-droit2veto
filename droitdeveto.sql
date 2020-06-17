@@ -35,7 +35,7 @@ CREATE TABLE PurchasesOrders (
 );
 
 CREATE TABLE Products ( 
-  id INT PRIMARY KEY NOT NULL, 
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   type_logo VARCHAR(250),
   film_personnalisé_anesthésie TINYINT(1), 
   film_personnalisé_activités TINYINT(1),
@@ -43,13 +43,13 @@ CREATE TABLE Products (
 );
 
 CREATE TABLE Activities_Products(
-   id INT PRIMARY KEY NOT NULL, 
+   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
    Activities_id int,
    Products_id int 
 );
 
 CREATE TABLE PurchasesOrders_Products(
-   id INT PRIMARY KEY NOT NULL, 
+   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
    PurchasesOrders_id int,
    Products_id int 
 );
@@ -78,3 +78,4 @@ ALTER TABLE PurchasesOrders_Products
 ADD CONSTRAINT `fk_PurchasesOrders_Products_PurchasesOrders`
 FOREIGN KEY (`PurchasesOrders_id`)
 REFERENCES `PurchasesOrders`(`id`);
+
