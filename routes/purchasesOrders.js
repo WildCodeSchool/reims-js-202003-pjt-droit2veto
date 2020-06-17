@@ -38,7 +38,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   const formData = req.body;
-  if (formData.title === null) {
+  if (formData.DVM_id === "" || formData.quantity === "") {
     return (
       res.status(400).json({ message: "Necessary fields are empty" })
     )
