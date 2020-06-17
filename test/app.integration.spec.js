@@ -238,3 +238,17 @@ it('POST / Correct from purchasesOrders', (done) => {
       done();
     });
 });
+
+//test routes products//
+
+describe('Test products:', () => {
+  it('GET / All products', (done) => {
+    request(app)
+      .get('/products')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        done();
+      });
+  });
+});
