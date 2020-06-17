@@ -89,3 +89,15 @@ Content-Type: application/json
 
 ###Look all products
 GET http://localhost:8000/products
+
+
+###POST Add a products
+POST http://localhost:8000/products
+Content-Type: application/json
+
+{
+    "type_logo": "1",
+    "film_personnalisé_anesthésie": "1",
+    "film_personnalisé_activités": "0",
+    "WallOfFame_sticker": "0"
+}
