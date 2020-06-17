@@ -171,86 +171,88 @@ describe('Test purchasesOrders:', () => {
 });
 
 describe('Test purchasesOrders :', () => {
-  const testDVM = { lastname: 'Descartes', ordinal_number: '123456' };
+  const testDVM = { DVM_id: "1", quantity: "10" };
   beforeEach((done) =>
     connection.query('SET FOREIGN_KEY_CHECKS = 0', () =>
-      connection.query('TRUNCATE purchasesOrders', () =>
+      connection.query('TRUNCATE PurchasesOrders', () =>
         connection.query('SET FOREIGN_KEY_CHECKS = 1', () =>
-          connection.query('INSERT INTO purchasesOrders SET ?', testDVM, done)
+          connection.query('INSERT INTO PurchasesOrders SET ?', testDVM, done)
         )
       )
     )
   );
+
+  it('GET / Id purchasesOrders : bad ID', (done) => {
+    request(app)
+      .get('/purchasesOrders/noId')
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "No correct ID" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+
+  it('GET / Id purchasesOrders : ID not found', (done) => {
+    request(app)
+      .get('/purchasesOrders/15')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'PurchasesOrders ID not found' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+
+  it('GET / Id purchasesOrders : Correct', (done) => {
+    request(app)
+      .get('/purchasesOrders/1')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { DVM_id: expect.any(Number), id: expect.any(Number), quantity: expect.any(Number), }
+        expect(response.body[0]).toEqual(expected)
+        done();
+      });
+  });
+
+
+  it('POST / field missing from purchasesOrders', (done) => {
+    request(app)
+      .post('/purchasesOrders')
+      .send({
+        DVM_id: "",
+        quantity: ""
+      })
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'Necessary fields are empty' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+
+  it('POST / Correct from purchasesOrders', (done) => {
+    request(app)
+      .post('/purchasesOrders')
+      .send({
+        DVM_id: "1",
+        quantity: "10"
+      })
+      .expect(201)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { id: expect.any(Number), DVM_id: "1", quantity: "10" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
 });
 
-it('GET / Id purchasesOrders : bad ID', (done) => {
-  request(app)
-    .get('/purchasesOrders/noId')
-    .expect(400)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { message: "No correct ID" }
-      expect(response.body).toEqual(expected);
-      done();
-    });
-});
 
-it('GET / Id purchasesOrders : ID not found', (done) => {
-  request(app)
-    .get('/purchasesOrders/15')
-    .expect(404)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { message: 'PurchasesOrders ID not found' }
-      expect(response.body).toEqual(expected);
-      done();
-    });
-});
-
-it('GET / Id purchasesOrders : Correct', (done) => {
-  request(app)
-    .get('/purchasesOrders/1')
-    .expect(200)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { DVM_id: expect.any(Number), id: expect.any(Number), quantity: expect.any(Number), }
-      expect(response.body[0]).toEqual(expected)
-      done();
-    });
-});
-
-
-it('POST / field missing from purchasesOrders', (done) => {
-  request(app)
-    .post('/purchasesOrders')
-    .send({
-      DVM_id: "",
-      quantity: ""
-    })
-    .expect(400)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { message: 'Necessary fields are empty' }
-      expect(response.body).toEqual(expected);
-      done();
-    });
-});
-
-it('POST / Correct from purchasesOrders', (done) => {
-  request(app)
-    .post('/purchasesOrders')
-    .send({
-      DVM_id: "1",
-      quantity: "10"
-    })
-    .expect(201)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { id: expect.any(Number), DVM_id: "1", quantity: "10" }
-      expect(response.body).toEqual(expected);
-      done();
-    });
-});
 
 //test routes products//
 
@@ -266,71 +268,84 @@ describe('Test products:', () => {
   });
 });
 
-describe('Test products :', () => {
-  const testDVM = { lastname: 'Descartes', ordinal_number: '123456' };
+describe('Test Products :', () => {
+  const testDVM = {type_logo: "1", film_personnalisé_anesthésie: "1", film_personnalisé_activités: "0", WallOfFame_sticker: "0" };
   beforeEach((done) =>
     connection.query('SET FOREIGN_KEY_CHECKS = 0', () =>
-      connection.query('TRUNCATE products', () =>
+      connection.query('TRUNCATE Products', () =>
         connection.query('SET FOREIGN_KEY_CHECKS = 1', () =>
-          connection.query('INSERT INTO products SET ?', testDVM, done)
+          connection.query('INSERT INTO Products SET ?', testDVM, done)
         )
       )
     )
   );
-});
 
 
-it('GET / Id products : bad ID', (done) => {
-  request(app)
-    .get('/products/noId')
-    .expect(400)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { message: "No correct ID" }
-      expect(response.body).toEqual(expected);
-      done();
-    });
-});
 
-it('GET / Id products : ID not found', (done) => {
-  request(app)
-    .get('/products/15')
-    .expect(404)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { message: 'products ID not found' }
-      expect(response.body).toEqual(expected);
-      done();
-    });
-});
-
-it('POST / Correct from products', (done) => {
-  request(app)
-    .post('/products')
-    .send({
-      type_logo: "1",
-      film_personnalisé_anesthésie: 1,
-      film_personnalisé_activités: 0,
-      WallOfFame_sticker: 0
-    })
-    .expect(201)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { id: expect.any(Number), type_logo: "1",film_personnalisé_anesthésie: 1,film_personnalisé_activités: 0,WallOfFame_sticker: 0 }
-      expect(response.body).toEqual(expected);
-      done();
-    });
-});
-
-
-it('GET / Id products : Correct', (done) => {
-  request(app)
-    .get('/products/1')
-    .expect(200)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { id: expect.any(Number), type_logo: "1",film_personnalisé_anesthésie: 1,film_personnalisé_activités: 0,WallOfFame_sticker: 0}
-      expect(response.body[0]).toEqual(expected)
-      done();
-    });
+  it('GET / Id products : bad ID', (done) => {
+    request(app)
+      .get('/products/noId')
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "No correct ID" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
   });
+
+  it('GET / Id products : ID not found', (done) => {
+    request(app)
+      .get('/products/15')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'products ID not found' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+
+  it('POST / Correct from products', (done) => {
+    request(app)
+      .post('/products')
+      .send({
+        type_logo: "1",
+        film_personnalisé_anesthésie: 1,
+        film_personnalisé_activités: 0,
+        WallOfFame_sticker: 0
+      })
+      .expect(201)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { id: expect.any(Number), type_logo: "1", film_personnalisé_anesthésie: 1, film_personnalisé_activités: 0, WallOfFame_sticker: 0 }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+
+
+  it('GET / Id products : Correct', (done) => {
+    request(app)
+      .get('/products/1')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { id: expect.any(Number), type_logo: "1", film_personnalisé_anesthésie: 1, film_personnalisé_activités: 0, WallOfFame_sticker: 0 }
+        expect(response.body[0]).toEqual(expected)
+        done();
+      });
+  });
+
+  it('PUT / bad ID from products', (done) => {
+    request(app)
+      .put('/products/noId')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "No correct ID" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+});
