@@ -184,5 +184,19 @@ describe('Test Activities:', () => {
         done();
       });
   });
+  it('PUT / Correct Id', (done) => {
+    request(app)
+      .put('/activities/1')
+      .send({
+        title: "cardiologie"
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'Changed row 1' }
+        expect(response.body).toEqual(expected)
+        done();
+      });
+  });
 
 });
