@@ -20,11 +20,14 @@ describe('Test routes :', () => {
 
 describe('Test DVM_Legal_Entity :', () => {
   const testDVM = { lastname: 'Descartes', ordinal_number: '123456' };
+  const testDVM2 = { lastname: 'Voltaire', ordinal_number: '111111' }
   beforeEach((done) =>
     connection.query('SET FOREIGN_KEY_CHECKS = 0', () =>
       connection.query('TRUNCATE DVM_Legal_Entity', () =>
         connection.query('SET FOREIGN_KEY_CHECKS = 1', () =>
-          connection.query('INSERT INTO DVM_Legal_Entity SET ?', testDVM, done)
+          connection.query('INSERT INTO DVM_Legal_Entity SET ?', testDVM, () =>
+            connection.query('INSERT INTO DVM_Legal_Entity SET ?', testDVM2, done)
+          )
         )
       )
     )
@@ -90,14 +93,14 @@ describe('Test DVM_Legal_Entity :', () => {
   it('POST / Correct', (done) => {
     request(app)
       .post('/users')
-      .send({ 
+      .send({
         lastname: "Rousseau",
-        ordinal_number: "654321" 
+        ordinal_number: "654321"
       })
       .expect(201)
       .expect('Content-Type', /json/)
       .then(response => {
-        const expected = {id: expect.any(Number), lastname: "Rousseau", ordinal_number: "654321"}
+        const expected = { id: expect.any(Number), lastname: "Rousseau", ordinal_number: "654321" }
         expect(response.body).toEqual(expected);
         done();
       });
@@ -136,7 +139,7 @@ describe('Test DVM_Legal_Entity :', () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .then(response => {
-        const expected = {message: 'Changed row 1' }
+        const expected = { message: 'Changed row 1' }
         expect(response.body).toEqual(expected)
         done();
       });
