@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  const { id } = req.params
+  const id = parseInt(req.params.id)
   if (isNaN(id)) {
     return (
       res.status(400).json({message: "No correct ID"})
