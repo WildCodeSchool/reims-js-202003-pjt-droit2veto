@@ -17,7 +17,7 @@ router.get('/:id', (req, res) => {
   const id = parseInt(req.params.id);
   if (isNaN(id)) {
     return (
-      res.status(400).json({ message: "No correct ID" })
+      res.status(404).json({ message: "No correct ID" })
     )
   }
   connection.query('SELECT * from PurchasesOrders WHERE id = ?', id, (err, results) => {

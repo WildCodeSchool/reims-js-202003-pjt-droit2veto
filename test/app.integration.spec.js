@@ -173,7 +173,7 @@ describe('Test purchasesOrders:', () => {
 it('GET / Id purchasesOrders : bad ID', (done) => {
   request(app)
     .get('/purchasesOrders/noId')
-    .expect(400)
+    .expect(404)
     .expect('Content-Type', /json/)
     .then(response => {
       const expected = { message: "No correct ID" }
@@ -227,8 +227,7 @@ it('POST / field null from purchasesOrders', (done) => {
   request(app)
     .post('/purchasesOrders')
     .send({
-      DVM_id: null,
-      quantity: null
+     
     })
     .expect(400)
     .expect('Content-Type', /json/)
