@@ -85,3 +85,7 @@ Content-Type: application/json
     "DVM_id" : "1",
     "quantity": "2"
 }
+
+
+###Look all products
+GET http://localhost:8000/products
