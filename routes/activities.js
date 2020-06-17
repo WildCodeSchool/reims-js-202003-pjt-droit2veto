@@ -60,7 +60,7 @@ router.put('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   const formData = req.body;
-  if (formData.title === null) {
+  if (formData.title === "") {
     return (
       res.status(400).json({message: "Necessary fields are empty"})
     )

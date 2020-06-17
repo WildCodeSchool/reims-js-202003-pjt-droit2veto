@@ -144,7 +144,6 @@ describe('Test Activities:', () => {
         done();
       });
   });
-  /* NOT WORKING
   it('POST / Missing necessary field', (done) => {
     request(app)
       .post('/activities')
@@ -158,7 +157,7 @@ describe('Test Activities:', () => {
         expect(response.body).toEqual(expected);
         done();
       });
-  });*/
+  });
   it('PUT / Bad ID', (done) => {
     request(app)
       .put('/activities/noId')
@@ -198,5 +197,4 @@ describe('Test Activities:', () => {
         done();
       });
   });
-
 });
