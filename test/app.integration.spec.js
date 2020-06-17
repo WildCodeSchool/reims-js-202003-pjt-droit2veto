@@ -170,6 +170,19 @@ describe('Test purchasesOrders:', () => {
   });
 });
 
+describe('Test purchasesOrders :', () => {
+  const testDVM = { lastname: 'Descartes', ordinal_number: '123456' };
+  beforeEach((done) =>
+    connection.query('SET FOREIGN_KEY_CHECKS = 0', () =>
+      connection.query('TRUNCATE purchasesOrders', () =>
+        connection.query('SET FOREIGN_KEY_CHECKS = 1', () =>
+          connection.query('INSERT INTO purchasesOrders SET ?', testDVM, done)
+        )
+      )
+    )
+  );
+});
+
 it('GET / Id purchasesOrders : bad ID', (done) => {
   request(app)
     .get('/purchasesOrders/noId')
@@ -253,6 +266,20 @@ describe('Test products:', () => {
   });
 });
 
+describe('Test products :', () => {
+  const testDVM = { lastname: 'Descartes', ordinal_number: '123456' };
+  beforeEach((done) =>
+    connection.query('SET FOREIGN_KEY_CHECKS = 0', () =>
+      connection.query('TRUNCATE products', () =>
+        connection.query('SET FOREIGN_KEY_CHECKS = 1', () =>
+          connection.query('INSERT INTO products SET ?', testDVM, done)
+        )
+      )
+    )
+  );
+});
+
+
 it('GET / Id products : bad ID', (done) => {
   request(app)
     .get('/products/noId')
@@ -276,3 +303,34 @@ it('GET / Id products : ID not found', (done) => {
       done();
     });
 });
+
+it('POST / Correct from products', (done) => {
+  request(app)
+    .post('/products')
+    .send({
+      type_logo: "1",
+      film_personnalisé_anesthésie: 1,
+      film_personnalisé_activités: 0,
+      WallOfFame_sticker: 0
+    })
+    .expect(201)
+    .expect('Content-Type', /json/)
+    .then(response => {
+      const expected = { id: expect.any(Number), type_logo: "1",film_personnalisé_anesthésie: 1,film_personnalisé_activités: 0,WallOfFame_sticker: 0 }
+      expect(response.body).toEqual(expected);
+      done();
+    });
+});
+
+
+it('GET / Id products : Correct', (done) => {
+  request(app)
+    .get('/products/1')
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .then(response => {
+      const expected = { id: expect.any(Number), type_logo: "1",film_personnalisé_anesthésie: 1,film_personnalisé_activités: 0,WallOfFame_sticker: 0}
+      expect(response.body[0]).toEqual(expected)
+      done();
+    });
+  });
