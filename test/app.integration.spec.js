@@ -169,7 +169,7 @@ describe('Test Activities_Products', () => {
   it('GET / bad ID', (done) => {
     request(app)
       .get('/activitiesproducts/noId')
-      .expect(400)
+      .expect(404)
       .expect('Content-Type', /json/)
       .then(response => {
         const expected = { message: "No correct ID" }

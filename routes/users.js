@@ -17,7 +17,7 @@ router.get('/:id', (req, res) => {
   const { id } = req.params
   if (isNaN(id)) {
     return (
-      res.status(400).json({message: "No correct ID"})
+      res.status(404).json({message: "No correct ID"})
     )
   }
   connection.query('SELECT * from DVM_Legal_Entity WHERE id = ?', id, (err, results) => {
