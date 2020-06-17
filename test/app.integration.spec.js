@@ -348,7 +348,7 @@ describe('Test Products :', () => {
         done();
       });
   });
-  it('PUT / ID not found from p', (done) => {
+  it('PUT / ID not found from products', (done) => {
     request(app)
       .put('/products/15')
       .send({
@@ -359,6 +359,20 @@ describe('Test Products :', () => {
       .then(response => {
         const expected = { message: 'User ID not found' }
         expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('PUT / Id Correct', (done) => {
+    request(app)
+      .put('/products/1')
+      .send({
+        type_logo: "12"
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'Changed row 1' }
+        expect(response.body).toEqual(expected)
         done();
       });
   });
