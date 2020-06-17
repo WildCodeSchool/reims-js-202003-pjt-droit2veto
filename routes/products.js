@@ -24,7 +24,7 @@ router.put('/:id', (req, res) => {
 
   if (isNaN(idProducts)) {
     return (
-      res.status(400).json({message:"No correct ID"})
+      res.status(404).json({message:"No correct ID"})
     )
   }
 
