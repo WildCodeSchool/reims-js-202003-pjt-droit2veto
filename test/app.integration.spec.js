@@ -252,3 +252,15 @@ describe('Test products:', () => {
       });
   });
 });
+
+it('GET / Id products : bad ID', (done) => {
+  request(app)
+    .get('/products/noId')
+    .expect(400)
+    .expect('Content-Type', /json/)
+    .then(response => {
+      const expected = { message: "No correct ID" }
+      expect(response.body).toEqual(expected);
+      done();
+    });
+});
