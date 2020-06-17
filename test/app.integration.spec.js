@@ -184,7 +184,7 @@ it('GET / Id purchasesOrders : bad ID', (done) => {
 
 it('GET / Id purchasesOrders : ID not found', (done) => {
   request(app)
-    .get('/purchasesOrders/15')
+    .get('/purchasesOrders/2000')
     .expect(404)
     .expect('Content-Type', /json/)
     .then(response => {
@@ -222,6 +222,23 @@ it('POST / field missing from purchasesOrders', (done) => {
       done();
     });
 });
+
+it('POST / field null from purchasesOrders', (done) => {
+  request(app)
+    .post('/purchasesOrders')
+    .send({
+      DVM_id: null,
+      quantity: null
+    })
+    .expect(400)
+    .expect('Content-Type', /json/)
+    .then(response => {
+      const expected = { message: 'Necessary fields are empty' }
+      expect(response.body).toEqual(expected);
+      done();
+    });
+});
+
 
 it('POST / Correct from purchasesOrders', (done) => {
   request(app)
