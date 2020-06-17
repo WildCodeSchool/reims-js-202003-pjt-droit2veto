@@ -130,4 +130,19 @@ describe('Test Activities:', () => {
         done();
       });
   });
+  it('POST / Correct', (done) => {
+    request(app)
+      .post('/activities')
+      .send({
+        title: "médecine spécialisée"
+      })
+      .expect(201)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { id: expect.any(Number), title: "médecine spécialisée" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+
 });
