@@ -37,7 +37,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   const formData = req.body;
-  if (formData.ordinal_number === "" || formData.lastname === "") {
+  if (formData.ordinal_number == null || formData.lastname == null) {
     return (
       res.status(400).json({message: "Necessary fields are empty"})
     )
