@@ -14,13 +14,13 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  const { id } = req.params
-  if (isNaN(id)) {
+  const activityId = parseInt(req.params.id);
+  if (isNaN(activityId)) {
     return (
       res.status(400).json({message: "No correct ID"})
     )
   }
-  connection.query('SELECT * from Activities WHERE id = ?', id, (err, results) => {
+  connection.query('SELECT * from Activities WHERE id = ?', activityId, (err, results) => {
     if (err) {
       return (
         res.status(500).json({message: 'Internal server error'})
@@ -60,7 +60,7 @@ router.put('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   const formData = req.body;
-  if (formData.title === "") {
+  if (formData.title === "" || formData.title === null) {
     return (
       res.status(400).json({message: "Necessary fields are empty"})
     )

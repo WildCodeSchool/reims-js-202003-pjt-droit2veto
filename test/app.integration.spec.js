@@ -144,11 +144,25 @@ describe('Test Activities:', () => {
         done();
       });
   });
-  it('POST / Missing necessary field', (done) => {
+  it('POST / Necessary field empty', (done) => {
     request(app)
       .post('/activities')
       .send({
         title: ""
+      })
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "Necessary fields are empty" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('POST / Missing necessary field', (done) => {
+    request(app)
+      .post('/activities')
+      .send({
+        title: null
       })
       .expect(400)
       .expect('Content-Type', /json/)
