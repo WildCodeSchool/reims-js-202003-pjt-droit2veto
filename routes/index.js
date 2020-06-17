@@ -5,6 +5,7 @@ const purchasesOrders = require('./purchasesOrders');
 const products = require('./products');
 
 
+
 const router = express.Router();
 
 router.use('/users', users);
@@ -13,3 +14,4 @@ router.use('/purchasesorders', purchasesOrders);
 router.use('/products', products);
 
 module.exports = router;
+
