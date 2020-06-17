@@ -144,5 +144,31 @@ describe('Test Activities:', () => {
         done();
       });
   });
+  /* NOT WORKING
+  it('POST / Missing necessary field', (done) => {
+    request(app)
+      .post('/activities')
+      .send({
+        title: ""
+      })
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "Necessary fields are empty" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });*/
+  it('PUT / Bad ID', (done) => {
+    request(app)
+      .put('/activities/noId')
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected =  {message: "No correct ID" }
+        expect(response.body).toEqual(expected)
+        done();
+      });
+  });
 
 });
