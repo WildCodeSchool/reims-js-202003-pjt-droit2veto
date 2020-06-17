@@ -264,3 +264,15 @@ it('GET / Id products : bad ID', (done) => {
       done();
     });
 });
+
+it('GET / Id products : ID not found', (done) => {
+  request(app)
+    .get('/products/15')
+    .expect(404)
+    .expect('Content-Type', /json/)
+    .then(response => {
+      const expected = { message: 'products ID not found' }
+      expect(response.body).toEqual(expected);
+      done();
+    });
+});
