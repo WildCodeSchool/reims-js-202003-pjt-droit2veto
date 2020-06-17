@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const id = parseInt(req.params.id);
-  if (isNaN(id)){
+  if (isNaN(id)) {
     return (
       res.status(400).json({ message: "No correct ID" })
     )
@@ -38,7 +38,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   const formData = req.body;
-  if (formData.DVM_id === "" || formData.quantity === ""|| formData.DVM_id == null|| formData.quantity == null ) {
+  if (formData.DVM_id === "" || formData.quantity === "" || formData.DVM_id == null || formData.quantity == null) {
     return (
       res.status(400).json({ message: "Necessary fields are empty" })
     )
