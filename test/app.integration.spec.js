@@ -165,7 +165,21 @@ describe('Test Activities:', () => {
       .expect(400)
       .expect('Content-Type', /json/)
       .then(response => {
-        const expected =  {message: "No correct ID" }
+        const expected =  { message: "No correct ID" }
+        expect(response.body).toEqual(expected)
+        done();
+      });
+  });
+  it('PUT / ID not found', (done) => {
+    request(app)
+      .put('/activities/8')
+      .send({
+        title: "radiographie"
+      })
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'User ID not found' }
         expect(response.body).toEqual(expected)
         done();
       });
