@@ -155,3 +155,15 @@ describe('Test Activities:', () => {
       });
   });
 });
+
+describe('Test Activities_Products', () => {
+  it('GET / All Activities_Products', (done) => {
+    request(app)
+      .get('/activitiesproducts')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        done();
+      });
+  });
+})
