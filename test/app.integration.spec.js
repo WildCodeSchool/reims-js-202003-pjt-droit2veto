@@ -269,7 +269,7 @@ describe('Test products:', () => {
 });
 
 describe('Test Products :', () => {
-  const testDVM = {type_logo: "1", film_personnalisé_anesthésie: "1", film_personnalisé_activités: "0", WallOfFame_sticker: "0" };
+  const testDVM = { type_logo: "1", film_personnalisé_anesthésie: "1", film_personnalisé_activités: "0", WallOfFame_sticker: "0" };
   beforeEach((done) =>
     connection.query('SET FOREIGN_KEY_CHECKS = 0', () =>
       connection.query('TRUNCATE Products', () =>
@@ -348,4 +348,20 @@ describe('Test Products :', () => {
         done();
       });
   });
+  it('PUT / ID not found from p', (done) => {
+    request(app)
+      .put('/products/15')
+      .send({
+        type_logo: "12"
+      })
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'User ID not found' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
 });
+
+
