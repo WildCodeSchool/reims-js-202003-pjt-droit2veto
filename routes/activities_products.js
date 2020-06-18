@@ -15,11 +15,6 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const id = parseInt(req.params.id)
-  if (isNaN(id)) {
-    return (
-      res.status(400).json({message: "No correct ID"})
-    )
-  }
   connection.query('SELECT * from Activities_Products WHERE id = ?', id, (err, results) => {
     if (err) {
       return (

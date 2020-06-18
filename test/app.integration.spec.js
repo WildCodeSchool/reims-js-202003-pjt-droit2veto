@@ -42,7 +42,7 @@ describe('Test DVM_Legal_Entity :', () => {
   it('GET / bad ID', (done) => {
     request(app)
       .get('/users/noId')
-      .expect(400)
+      .expect(404)
       .expect('Content-Type', /json/)
       .then(response => {
         const expected = { message: "No correct ID" }
@@ -105,7 +105,7 @@ describe('Test DVM_Legal_Entity :', () => {
   it('PUT / bad ID', (done) => {
     request(app)
       .put('/users/noId')
-      .expect(400)
+      .expect(404)
       .expect('Content-Type', /json/)
       .then(response => {
         const expected = { message: "No correct ID" }

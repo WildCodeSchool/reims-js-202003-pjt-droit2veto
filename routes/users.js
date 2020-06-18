@@ -15,11 +15,6 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const { id } = req.params
-  if (isNaN(id)) {
-    return (
-      res.status(404).json({message: "No correct ID"})
-    )
-  }
   connection.query('SELECT * from DVM_Legal_Entity WHERE id = ?', id, (err, results) => {
     if (err) {
       return (
@@ -57,11 +52,6 @@ router.put('/:id', (req, res) => {
   const idDVM = req.params.id;
   const formData = req.body;
 
-  if (isNaN(idDVM)) {
-    return (
-      res.status(400).json({message: "No correct ID"})
-    )
-  }
   connection.query('UPDATE DVM_Legal_Entity SET ? WHERE id = ?', [formData, idDVM], (err, results) => {
     if (err) {
       return (
