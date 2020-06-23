@@ -15,6 +15,15 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:8000/users
+Content-Type: application/json
+
+{
+    "lastname": "",
+    "ordinal_number": "" 
+}
+
+###
 PUT http://localhost:8000/users/1
 Content-Type: application/json
 

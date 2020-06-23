@@ -1,5 +1,6 @@
 const connection = require('../conf');
 const express = require('express');
+
 const router = express.Router();
 
 router.delete('/:id', (req, res) => {
@@ -26,10 +27,12 @@ router.put('/:id', (req, res) => {
       res.status(400).json({message:"No correct ID"})
     )
   }
+
   connection.query('UPDATE Products SET ? WHERE id = ?', [formData, idProducts], (err, results) => {
     if (err) {
       return (
         res.status(500).json({message:"Error server"})
+
       )
     }
     if (results.changedRows === 0) {
@@ -89,5 +92,4 @@ router.get('/', (req, res) => {
     res.json(results)
   })
 })
-
 module.exports = router;

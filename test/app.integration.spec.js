@@ -20,17 +20,20 @@ describe('Test routes :', () => {
 
 describe('Test DVM_Legal_Entity :', () => {
   const testDVM = { lastname: 'Descartes', ordinal_number: '123456' };
+  const testDVM2 = { lastname: 'Voltaire', ordinal_number: '111111' }
   beforeEach((done) =>
     connection.query('SET FOREIGN_KEY_CHECKS = 0', () =>
       connection.query('TRUNCATE DVM_Legal_Entity', () =>
         connection.query('SET FOREIGN_KEY_CHECKS = 1', () =>
-          connection.query('INSERT INTO DVM_Legal_Entity SET ?', testDVM, done)
+          connection.query('INSERT INTO DVM_Legal_Entity SET ?', testDVM, () =>
+            connection.query('INSERT INTO DVM_Legal_Entity SET ?', testDVM2, done)
+          )
         )
       )
     )
   );
 
-  it('GET / All DVM_Legal_Entity', (done) => {
+  it('GET / All', (done) => {
     request(app)
       .get('/users')
       .expect(200)
@@ -39,10 +42,10 @@ describe('Test DVM_Legal_Entity :', () => {
         done();
       });
   });
-  it('GET / Id DVM_Legal_Entity : bad ID', (done) => {
+  it('GET / bad ID', (done) => {
     request(app)
       .get('/users/noId')
-      .expect(400)
+      .expect(404)
       .expect('Content-Type', /json/)
       .then(response => {
         const expected = { message: "No correct ID" }
@@ -50,7 +53,7 @@ describe('Test DVM_Legal_Entity :', () => {
         done();
       });
   });
-  it('GET / Id DVM_Legal_Entity : ID not found', (done) => {
+  it('GET / ID not found', (done) => {
     request(app)
       .get('/users/15')
       .expect(404)
@@ -61,7 +64,7 @@ describe('Test DVM_Legal_Entity :', () => {
         done();
       });
   });
-  it('GET / Id DVM_Legal_Entity : Correct', (done) => {
+  it('GET / Id Correct', (done) => {
     request(app)
       .get('/users/1')
       .expect(200)
@@ -69,6 +72,75 @@ describe('Test DVM_Legal_Entity :', () => {
       .then(response => {
         const expected = { id: expect.any(Number), firstname: null, lastname: 'Descartes', ordinal_number: 123456 }
         expect(response.body[0]).toEqual(expected)
+        done();
+      });
+  });
+  it('POST / field missing', (done) => {
+    request(app)
+      .post('/users')
+      .send({
+        lastname: "",
+        ordinal_number: ""
+      })
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'Necessary fields are empty' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('POST / Correct', (done) => {
+    request(app)
+      .post('/users')
+      .send({
+        lastname: "Rousseau",
+        ordinal_number: "654321"
+      })
+      .expect(201)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { id: expect.any(Number), lastname: "Rousseau", ordinal_number: "654321" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('PUT / bad ID', (done) => {
+    request(app)
+      .put('/users/noId')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "No correct ID" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('PUT / ID not found', (done) => {
+    request(app)
+      .put('/users/15')
+      .send({
+        firstname: 'René'
+      })
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'User ID not found' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('PUT / Id Correct', (done) => {
+    request(app)
+      .put('/users/1')
+      .send({
+        firstname: 'René'
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'Changed row 1' }
+        expect(response.body).toEqual(expected)
         done();
       });
   });
@@ -188,3 +260,38 @@ describe('Test Activities:', () => {
       });
   });
 });
+
+/* ------------------ ACTIVITIES PRODUCTS TESTS --------------------- */
+
+describe('Test Activities_Products', () => {
+  it('GET / All Activities_Products', (done) => {
+    request(app)
+      .get('/activitiesproducts')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        done();
+      });
+  });
+  it('GET / bad ID', (done) => {
+    request(app)
+      .get('/activitiesproducts/noId')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "No correct ID" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('GET / ID not found', (done) => {
+    request(app)
+      .get('/activitiesproducts/15')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'Activities_Products ID not found' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
