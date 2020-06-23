@@ -18,16 +18,8 @@ router.delete('/:id', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-
-  const idProducts = req.params.id;
+  const idProducts =  req.params.id;
   const formData = req.body;
-
-  if (isNaN(idProducts)) {
-    return (
-      res.status(400).json({message:"No correct ID"})
-    )
-  }
-
   connection.query('UPDATE Products SET ? WHERE id = ?', [formData, idProducts], (err, results) => {
     if (err) {
       return (
@@ -66,7 +58,7 @@ router.post('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  const { id } = req.params
+  const id  =  req.params.id;
   connection.query('SELECT * from Products WHERE id = ?', id, (err, results) => {
     if (err) {
       return (

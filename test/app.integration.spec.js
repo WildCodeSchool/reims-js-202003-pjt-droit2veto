@@ -258,6 +258,7 @@ describe('Test Activities:', () => {
   });
 });
 
+
 // Activities_Products test
 
 describe('Test Activities_Products', () => {
@@ -283,19 +284,20 @@ describe('Test Activities_Products', () => {
         done();
       });
   });
+});
 
-  it('GET / ID not found', (done) => {
-    request(app)
-      .get('/activitiesproducts/15')
-      .expect(404)
-      .expect('Content-Type', /json/)
-      .then(response => {
-        const expected = { message: 'Activities_Products ID not found' }
-        expect(response.body).toEqual(expected);
-        done();
-      });
-  });
-})
+it('GET / ID not found', (done) => {
+  request(app)
+    .get('/activitiesproducts/15')
+    .expect(404)
+    .expect('Content-Type', /json/)
+    .then(response => {
+      const expected = { message: 'Activities_Products ID not found' }
+      expect(response.body).toEqual(expected);
+      done();
+    });
+});
+
 
 //test routes PurchasesOrders//
 
@@ -396,4 +398,105 @@ it('POST / Correct from purchasesOrders', (done) => {
       expect(response.body).toEqual(expected);
       done();
     });
+});
+
+
+
+//test routes products//
+
+describe('Test products:', () => {
+  it('GET / All products', (done) => {
+    request(app)
+      .get('/products')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        done();
+      });
+  });
+});
+
+describe('Test Products :', () => {
+  const testDVM = { type_logo: "1", film_personnalisé_anesthésie: "1", film_personnalisé_activités: "0", WallOfFame_sticker: "0" };
+  beforeEach((done) =>
+    connection.query('SET FOREIGN_KEY_CHECKS = 0', () =>
+      connection.query('TRUNCATE Products', () =>
+        connection.query('SET FOREIGN_KEY_CHECKS = 1', () =>
+          connection.query('INSERT INTO Products SET ?', testDVM, done)
+        )
+      )
+    )
+  );
+
+  it('GET / Id products : ID not found', (done) => {
+    request(app)
+      .get('/products/15')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'products ID not found' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+
+  it('POST / Correct from products', (done) => {
+    request(app)
+      .post('/products')
+      .send({
+        type_logo: "1",
+        film_personnalisé_anesthésie: 1,
+        film_personnalisé_activités: 0,
+        WallOfFame_sticker: 0
+      })
+      .expect(201)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { id: expect.any(Number), type_logo: "1", film_personnalisé_anesthésie: 1, film_personnalisé_activités: 0, WallOfFame_sticker: 0 }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+
+
+  it('GET / Id products : Correct', (done) => {
+    request(app)
+      .get('/products/1')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { id: expect.any(Number), type_logo: "1", film_personnalisé_anesthésie: 1, film_personnalisé_activités: 0, WallOfFame_sticker: 0 }
+        expect(response.body[0]).toEqual(expected)
+        done();
+      });
+  });
+  
+  it('PUT / ID not found from products', (done) => {
+    request(app)
+      .put('/products/15')
+      .send({
+        type_logo: "12"
+      })
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'User ID not found' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('PUT / Id Correct', (done) => {
+    request(app)
+      .put('/products/1')
+      .send({
+        type_logo: "12"
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'Changed row 1' }
+        expect(response.body).toEqual(expected)
+        done();
+      });
+  });
 });
