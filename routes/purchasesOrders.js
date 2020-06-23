@@ -14,14 +14,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  if (isNaN(id)) {
-    return (
-      res.status(404).json({ message: "No correct ID" })
-    )
-  }
+  const { id } = req.params
   connection.query('SELECT * from PurchasesOrders WHERE id = ?', id, (err, results) => {
-
     if (err) {
       return (
         res.status(500).json({ message: 'Internal server error' })
@@ -32,10 +26,10 @@ router.get('/:id', (req, res) => {
         res.status(404).json({ message: 'PurchasesOrders ID not found' })
       )
     }
-    res.json(results)
+    res.json(results) 
   })
 });
-
+ 
 router.post('/', (req, res) => {
   const formData = req.body;
   if (formData.DVM_id === "" || formData.quantity === "" || formData.DVM_id == null || formData.quantity == null) {
