@@ -48,7 +48,7 @@ describe('Test DVM_Legal_Entity :', () => {
       .expect(404)
       .expect('Content-Type', /json/)
       .then(response => {
-        const expected = { message: "No correct ID" }
+        const expected = { message: 'User ID not found' }
         expect(response.body).toEqual(expected);
         done();
       });
@@ -78,10 +78,7 @@ describe('Test DVM_Legal_Entity :', () => {
   it('POST / field missing', (done) => {
     request(app)
       .post('/users')
-      .send({
-        lastname: "",
-        ordinal_number: ""
-      })
+      .send({})
       .expect(400)
       .expect('Content-Type', /json/)
       .then(response => {
@@ -146,14 +143,116 @@ describe('Test DVM_Legal_Entity :', () => {
   });
 });
 
+/* ------------------ ACTIVITIES TESTS --------------------- */
+
 
 describe('Test Activities:', () => {
+  const testActivities = { title: "echographie", description: "lorem ipsum", logo: null };
+  beforeEach((done) => 
+    connection.query('SET FOREIGN_KEY_CHECKS = 0', () => 
+      connection.query('TRUNCATE Activities', () =>
+        connection.query('SET FOREIGN_KEY_CHECKS = 1', () =>
+          connection.query('INSERT INTO Activities SET ?', testActivities, done)
+        )
+      )
+    )
+  );
   it('GET / All Activities', (done) => {
     request(app)
       .get('/activities')
       .expect(200)
       .expect('Content-Type', /json/)
       .then(response => {
+        done();
+      });
+  });
+  it('GET / Id Activities: ID not found', (done) => {
+    request(app)
+      .get('/activities/8')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "Activities ID not found" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('GET / Id Activities: Correct', (done) => {
+    request(app)
+      .get('/activities/1')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { id: expect.any(Number), title: "echographie", description: "lorem ipsum", logo: null }
+        expect(response.body[0]).toEqual(expected);
+        done();
+      });
+  });
+  it('POST / Correct', (done) => {
+    request(app)
+      .post('/activities')
+      .send({
+        title: "médecine spécialisée"
+      })
+      .expect(201)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { id: expect.any(Number), title: "médecine spécialisée" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('POST / Necessary field empty', (done) => {
+    request(app)
+      .post('/activities')
+      .send({
+        title: ""
+      })
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "Necessary fields are empty" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('POST / Missing necessary field', (done) => {
+    request(app)
+      .post('/activities')
+      .send({})
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "Necessary fields are empty" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('PUT / ID not found', (done) => {
+    request(app)
+      .put('/activities/8')
+      .send({
+        title: "radiographie"
+      })
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'User ID not found' }
+        expect(response.body).toEqual(expected)
+        done();
+      });
+  });
+  it('PUT / Correct Id', (done) => {
+    request(app)
+      .put('/activities/1')
+      .send({
+        title: "cardiologie"
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'Changed row 1' }
+        expect(response.body).toEqual(expected)
         done();
       });
   });

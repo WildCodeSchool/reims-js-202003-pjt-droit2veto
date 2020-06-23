@@ -14,8 +14,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  const { id } = req.params
-  connection.query('SELECT * from Activities WHERE id = ?', id, (err, results) => {
+  const activityId = parseInt(req.params.id);
+  connection.query('SELECT * from Activities WHERE id = ?', activityId, (err, results) => {
     if (err) {
       return (
         res.status(500).json({message: 'Internal server error'})
@@ -31,13 +31,8 @@ router.get('/:id', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-  const idActivity = req.params.id;
+  const idActivity = parseInt(req.params.id);
   const formData = req.body;
-  if (isNaN(idActivity)) {
-    return (
-      res.status(400).json({message: "No correct ID"})
-    )
-  }
   connection.query('UPDATE Activities SET ? WHERE id = ?', [formData, idActivity], (err, results) => {
     if (err) {
       return (
@@ -55,7 +50,7 @@ router.put('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   const formData = req.body;
-  if (formData.title === null) {
+  if (formData.title == "" || formData.title == null) {
     return (
       res.status(400).json({message: "Necessary fields are empty"})
     )
