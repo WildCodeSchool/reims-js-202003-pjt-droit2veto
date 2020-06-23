@@ -329,20 +329,6 @@ describe('Test Products :', () => {
     )
   );
 
-
-
-  it('GET / Id products : bad ID', (done) => {
-    request(app)
-      .get('/products/noId')
-      .expect(404)
-      .expect('Content-Type', /json/)
-      .then(response => {
-        const expected = { message: "products ID not found" }
-        expect(response.body).toEqual(expected);
-        done();
-      });
-  });
-
   it('GET / Id products : ID not found', (done) => {
     request(app)
       .get('/products/15')
@@ -385,18 +371,7 @@ describe('Test Products :', () => {
         done();
       });
   });
-
-  it('PUT / bad ID from products', (done) => {
-    request(app)
-      .put('/products/noId')
-      .expect(404)
-      .expect('Content-Type', /json/)
-      .then(response => {
-        const expected = { message: "No correct ID" }
-        expect(response.body).toEqual(expected);
-        done();
-      });
-  });
+  
   it('PUT / ID not found from products', (done) => {
     request(app)
       .put('/products/15')
