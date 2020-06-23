@@ -220,7 +220,7 @@ it('GET / Id purchasesOrders : bad ID', (done) => {
     .expect(404)
     .expect('Content-Type', /json/)
     .then(response => {
-      const expected = { message: "No correct ID" }
+      const expected = { message: "PurchasesOrders ID not found" }
       expect(response.body).toEqual(expected);
       done();
     });
