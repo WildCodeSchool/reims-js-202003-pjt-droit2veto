@@ -19,8 +19,9 @@ POST http://localhost:8000/users
 Content-Type: application/json
 
 {
-    "lastname": "",
-    "ordinal_number": "" 
+    "email": "dfissqkd@dazds.com",
+    "password":"1234",
+    "ordinal_number": "127613" 
 }
 
 ###
