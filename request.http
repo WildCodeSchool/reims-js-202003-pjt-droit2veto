@@ -112,6 +112,6 @@ Content-Type: application/json
 
 {
     "email": "user@gmail.com",
-    "pasword": "12345",
+    "password": "12345",
     "ordinal_number": "648567"
 }
