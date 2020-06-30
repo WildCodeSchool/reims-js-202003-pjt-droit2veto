@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
-const api = require('./routes');
+const indexRouter = require('./routes');
+const authRouter = require('./routes/auth');
 const cors = require('cors')
 
 const app = express();
@@ -12,7 +13,8 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-app.use('/', api);
+app.use('/', indexRouter);
+app.use('/auth', authRouter);
 
 app.get('/', (request, response) => {
   response.json({message: 'Bienvenue sur Express'} );

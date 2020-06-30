@@ -4,3 +4,5 @@ conf.js
 .env
 
 .DS_Store
+
+key.js
