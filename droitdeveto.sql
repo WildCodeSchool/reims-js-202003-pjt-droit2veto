@@ -8,7 +8,9 @@ USE Droit2Veto;
 
 CREATE TABLE DVM_Legal_Entity ( 
   id INT AUTO_INCREMENT PRIMARY KEY, 
-  lastname VARCHAR(100) NOT NULL, 
+  email VARCHAR(100) NOT NULL,
+  password VARCHAR(100)NOT NULL,
+  lastname VARCHAR(100), 
   firstname VARCHAR(100), 
   ordinal_number INT(6) NOT NULL 
 );
