@@ -4,7 +4,7 @@ const User = {};
 User.findByEmailAndPassword = (email, password, callback) => {
     connection.query(
         `SELECT * FROM DVM_Legal_Entity WHERE email = ?`,
-        [email, password],
+        email,
         (err, results, fields) => callback(err, results ? results[0] : null, fields)
     )
 }
