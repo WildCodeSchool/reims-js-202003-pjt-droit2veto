@@ -1,3 +1,5 @@
+##################################### USERS ################################################
+
 ###Look table
 GET http://localhost:8000/users
 
@@ -37,7 +39,7 @@ DELETE http://localhost:8000/users/2
 
 
 
-#####################################################################################
+##################################### ACTIVITIES ################################################
 
 
 
@@ -69,7 +71,7 @@ Content-Type: application/json
 DELETE http://localhost:8000/activities/3
 
 
-####################################################################################
+###################################### PURCHASES_ORDERS ##############################################
 
 
 ###Look all PurchasesOrders
@@ -101,4 +103,15 @@ Content-Type: application/json
     "film_personnalisé_anesthésie": "1",
     "film_personnalisé_activités": "0",
     "WallOfFame_sticker": "0"
+}
+
+######################################### LOGIN ############################################
+
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+    "email": "user@gmail.com",
+    "pasword": "12345",
+    "ordinal_number": "648567"
 }

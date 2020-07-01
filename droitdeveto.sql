@@ -59,6 +59,7 @@ CREATE TABLE PurchasesOrders_Products(
 /*donnée de teste */
 INSERT INTO Activities (`id`, `title`, `description`) VALUES (1, 'Echocardiographie', 'Label label'),(2, 'Echographie', 'Label label'),(3, 'Médecine générale', 'Label label');
 
+INSERT INTO DVM_Legal_Entity (`email`, `password`, `ordinal_number`) VALUES ('user@gmail.com', '$2b$10$auTHzlHJEeVl6CvjZmiHi.xF0lAQIhUKl96/LoLW.bumcvEk8WC5.', '648567');
 
 /*Contraint*/
 ALTER TABLE Activities_Products
