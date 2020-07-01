@@ -41,7 +41,6 @@ router.post('/', (req, res) => {
   }
   bcrypt.hash(formData.password, 10, function (err, hash) {
     formData.password = hash;
-    console.log(formData.password);
     if (res) {
       connection.query('INSERT INTO DVM_Legal_Entity SET ?', formData, (err, results) => {
         if (err) {
@@ -49,7 +48,7 @@ router.post('/', (req, res) => {
             res.status(500).json({ message: "Erreur lors de la sauvegarde d'un DVM" })
           );
         }
-        res.status(201).json({ ...formData, id: results.insertId })
+        res.status(201).json({ message: `User created with id: ${results.insertId}` });
       });
     } else {
       res.status(500).json({ message: "pass no hash" });
