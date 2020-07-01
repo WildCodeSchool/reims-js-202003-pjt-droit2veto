@@ -3,11 +3,9 @@ const router = express.Router();
 const { createToken } = require('../services/jwt');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const connection = require('../conf');
 
 router.post('/login', (req, res) => {
-  const { email } = req.body;
-  const { password } = req.body;
+  const { email, password } = req.body;
   User.findByEmailAndPassword(email, password, (err, user) => {
     if (err) {
       return (
@@ -19,21 +17,14 @@ router.post('/login', (req, res) => {
         res.json({ error: 'email ou mot de passe incorrect' })
       );
     }
-    connection.query('SELECT password FROM DVM_Legal_Entity WHERE email = ?', email, (error, results) => {
-      if (error) {
-        return (
-          res.status(500).json({ error })
-        );
+    bcrypt.compare(password, user.password, function(errCompare, result) {
+      if(result) {
+        const token = createToken(user);
+        res.json({ user, token });
+      } else {
+        res.status(500).json({message: "mot de passe ou email incorrect" })
       } 
-      bcrypt.compare(password, results[0].password, function(err2, res2) {
-        if(res2) {
-          const token = createToken(user);
-          res.json({ user, token });
-        } else {
-          res.status(500).json({message: "mot de passe ou email incorrect" })
-        } 
-      });      
-    });
+    });      
   });
 });
 
