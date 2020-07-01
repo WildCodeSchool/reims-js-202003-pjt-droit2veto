@@ -25,9 +25,7 @@ router.post('/login', (req, res) => {
           res.status(500).json({ error })
         );
       } 
-      console.log(results);
-      bcrypt.compare(password, results.password, function(err2, res2) {
-        console.log(err2);
+      bcrypt.compare(password, results[0].password, function(err2, res2) {
         if(res2) {
           const token = createToken(user);
           res.json({ user, token });
