@@ -28,6 +28,7 @@ router.get('/:id', (req, res) => {
         res.status(404).json({ message: 'User ID not found' })
       )
     }
+    delete results[0].password
     res.json(results)
   });
 });
@@ -45,7 +46,7 @@ router.post('/', (req, res) => {
       connection.query('INSERT INTO DVM_Legal_Entity SET ?', formData, (err, results) => {
         if (err) {
           return (
-            res.status(500).json({ message: "Erreur lors de la sauvegarde d'un DVM" })
+            res.status(500).json({ ...formData, id: results.insertId})
           );
         }
         res.status(201).json({ message: `User created with id: ${results.insertId}` });

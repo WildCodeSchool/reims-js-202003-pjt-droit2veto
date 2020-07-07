@@ -1,7 +1,6 @@
 // services/jwt.js
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
-
 const JWT_KEY = require('./key');
 
 const createToken = user => (
