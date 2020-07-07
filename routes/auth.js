@@ -4,6 +4,8 @@ const { createToken } = require('../services/jwt');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
+
+
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
   User.findByEmailAndPassword(email, password, (err, user) => {
@@ -14,13 +16,14 @@ router.post('/login', (req, res) => {
     } 
     if (!user) {
       return (
-        res.json({ error: 'email ou mot de passe incorrect' })
+        res.status(404).json({ error: 'email ou mot de passe incorrect' })
       );
     }
     bcrypt.compare(password, user.password, function(errCompare, result) {
       if(result) {
         const token = createToken(user);
         res.json({ user, token });
+
       } else {
         res.status(500).json({message: "mot de passe ou email incorrect" })
       } 
