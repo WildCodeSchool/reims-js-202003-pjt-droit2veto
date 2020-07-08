@@ -117,5 +117,17 @@ router.post('/activities', (req, res) => {
   });
 });
 
+router.delete('/:userId/activities/:activityId', (req, res) => {
+  const { userId, activityId } = req. params;
+  connection.query('DELETE FROM DVM_Activities WHERE DVM_id = ? AND Activities_id = ?',  [userId, activityId], (err, results) => {
+    if (err) {
+      return (
+        res.status(500).json({ message: 'Error server' })
+      )
+    }
+    res.json(results);
+  });
+});
+
 
 module.exports = router;
