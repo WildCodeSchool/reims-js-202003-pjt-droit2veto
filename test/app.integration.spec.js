@@ -69,7 +69,9 @@ describe('Test DVM_Legal_Entity :', () => {
       .get('/users/1')
       .expect(200)
       .expect('Content-Type', /json/)
-      .then(() => {
+      .then((response) => {
+        expect(response.body.email).toEqual(testDVM.email)
+        expect(response.body.ordinal_number).toEqual(testDVM.ordinal_number)
         done();
       });
   });
@@ -119,10 +121,7 @@ describe('Test DVM_Legal_Entity :', () => {
         firstname: 'René'
       })
       .expect(200)
-      .expect('Content-Type', /json/)
       .then(response => {
-        const expected = { message: 'Changed row 1' }
-        expect(response.body).toEqual(expected)
         done();
       });
   });
@@ -287,10 +286,7 @@ describe('Test purchasesOrders:', () => {
     request(app)
       .get('/purchasesOrders/noId')
       .expect(404)
-      .expect('Content-Type', /json/)
       .then(response => {
-        const expected = { message: "PurchasesOrders ID not found" }
-        expect(response.body).toEqual(expected);
         done();
       });
   });
@@ -298,10 +294,7 @@ describe('Test purchasesOrders:', () => {
     request(app)
       .get('/purchasesOrders/2000')
       .expect(404)
-      .expect('Content-Type', /json/)
-      .then(response => {
-        const expected = { message: 'PurchasesOrders ID not found' }
-        expect(response.body).toEqual(expected);
+      .then(() => {
         done();
       });
   });
@@ -312,7 +305,7 @@ describe('Test purchasesOrders:', () => {
       .expect('Content-Type', /json/)
       .then(response => {
         const expected = { DVM_id: expect.any(Number), id: expect.any(Number), quantity: expect.any(Number), }
-        expect(response.body[0]).toEqual(expected)
+        expect(response.body).toEqual(expected)
         done();
       });
   });
@@ -326,8 +319,6 @@ describe('Test purchasesOrders:', () => {
       .expect(400)
       .expect('Content-Type', /json/)
       .then(response => {
-        const expected = { message: 'Necessary fields are empty' }
-        expect(response.body).toEqual(expected);
         done();
       });
   });
@@ -339,9 +330,7 @@ describe('Test purchasesOrders:', () => {
       })
       .expect(400)
       .expect('Content-Type', /json/)
-      .then(response => {
-        const expected = { message: 'Necessary fields are empty' }
-        expect(response.body).toEqual(expected);
+      .then(() => {
         done();
       });
   });
@@ -393,9 +382,7 @@ describe('Test Products :', () => {
       .get('/products/15')
       .expect(404)
       .expect('Content-Type', /json/)
-      .then(response => {
-        const expected = { message: 'products ID not found' }
-        expect(response.body).toEqual(expected);
+      .then(() => {
         done();
       });
   });
@@ -438,10 +425,7 @@ describe('Test Products :', () => {
         type_logo: "12"
       })
       .expect(404)
-      .expect('Content-Type', /json/)
-      .then(response => {
-        const expected = { message: 'User ID not found' }
-        expect(response.body).toEqual(expected);
+      .then(() => {
         done();
       });
   });
