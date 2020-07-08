@@ -12,7 +12,7 @@ CREATE TABLE DVM_Legal_Entity (
   password VARCHAR(100)NOT NULL,
   lastname VARCHAR(100), 
   firstname VARCHAR(100), 
-  ordinal_number INT(6) 
+  ordinal_number VARCHAR(6) 
 );
 
 CREATE TABLE Activities (
