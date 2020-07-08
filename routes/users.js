@@ -105,7 +105,7 @@ router.get('/:userId/activities', (req, res) => {
   });
 });
 
-router.post('/activities', (req, res) => {
+router.post('/:userId/activities', (req, res) => {
   formData = req.body;
   connection.query('INSERT INTO DVM_Activities SET ?', formData, (err, results) => {
     if (err) {
