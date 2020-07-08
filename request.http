@@ -115,3 +115,7 @@ Content-Type: application/json
     "password": "12345",
     "ordinal_number": "648567"
 }
+
+#########################################
+
+GET http://localhost:8000/usersactivities/2/activities

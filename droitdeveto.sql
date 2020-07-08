@@ -11,8 +11,16 @@ CREATE TABLE DVM_Legal_Entity (
   email VARCHAR(100) NOT NULL,
   password VARCHAR(100)NOT NULL,
   lastname VARCHAR(100), 
-  firstname VARCHAR(100), 
-  ordinal_number INT(6) 
+  firstname VARCHAR(100),
+  establishment_name VARCHAR(100),
+  address_of_establishment_1 VARCHAR (100),
+  address_of_establishment_2 VARCHAR (100),
+  city VARCHAR(100),
+  postal_code VARCHAR(100),
+  telephone_of_the_establishment VARCHAR(100),
+  personal_phone VARCHAR(100),
+  logo varchar(100),
+  ordinal_number VARCHAR(6) 
 );
 
 CREATE TABLE Activities (
@@ -24,9 +32,8 @@ CREATE TABLE Activities (
 
 CREATE TABLE DVM_Activities (   
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  
-  practice BOOL NOT NULL,  
   DVM_id INT NOT NULL,   
-  CONSTRAINT fk_DVM_id FOREIGN KEY (DVM_id) REFERENCES DVM_Legal_Entity(id),    Activities_id INT NOT NULL,   CONSTRAINT fk_Activities_id FOREIGN KEY (Activities_id) REFERENCES Activities(id)
+  Activities_id INT NOT NULL
 );
 
 CREATE TABLE PurchasesOrders (
@@ -56,10 +63,12 @@ CREATE TABLE PurchasesOrders_Products(
    Products_id int 
 );
 
-/*donnée de teste */
-INSERT INTO Activities (`id`, `title`, `description`) VALUES (1, 'Echocardiographie', 'Label label'),(2, 'Echographie', 'Label label'),(3, 'Médecine générale', 'Label label');
+/*données de test */
+INSERT INTO Activities (`id`, `title`, `description`) VALUES (1, 'Echocardiographie', 'technique d\'imagerie médicale employant les ultrasons pour visualiser le coeur'),(2, 'Echographie', 'technique d\'imagerie employant des ultrasons'),(3, 'Médecine générale', 'spécialité médicale prenant en charge le suivi durable, le bien-être et les soins de santé généraux primaires'), (4, 'Médecine interne', 'spécialité médicale qui s\'intéresse au diagnostic et à la prise en charge globale des maladies'), (5, 'Ostéopathie', 'manipulations manuelles du système musculo-squelettique'), (6, 'Pneumologie', ' branche de la médecine s\'intéressant aux pathologies respiratoires'), (7, 'Rhumatologie', ' spécialité médicale qui s\'intéresse au diagnostic et au traitement des maladies de l\'appareil locomoteur'), (8, 'Traumatologie', 'étude médicale des traumatismes physiques');
 
 INSERT INTO DVM_Legal_Entity (`email`, `password`, `ordinal_number`) VALUES ('user@gmail.com', '$2b$10$auTHzlHJEeVl6CvjZmiHi.xF0lAQIhUKl96/LoLW.bumcvEk8WC5.', '648567');
+
+INSERT INTO DVM_Activities (`DVM_id`, `Activities_id`) VALUES ('1', '1'), ('1', '2'), ('1', '3'), ('1', '4');
 
 /*Contraint*/
 ALTER TABLE Activities_Products
@@ -82,3 +91,12 @@ ADD CONSTRAINT `fk_PurchasesOrders_Products_PurchasesOrders`
 FOREIGN KEY (`PurchasesOrders_id`)
 REFERENCES `PurchasesOrders`(`id`);
 
+ALTER TABLE DVM_Activities
+ADD CONSTRAINT `fk_DVM_id`
+FOREIGN KEY (`DVM_id`)
+REFERENCES `DVM_Legal_Entity`(`id`);
+
+ALTER TABLE DVM_Activities
+ADD CONSTRAINT `fk_Activities_id`
+FOREIGN KEY (`Activities_id`)
+REFERENCES `Activities`(`id`);
