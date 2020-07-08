@@ -19,8 +19,8 @@ describe('Test routes :', () => {
 });
 
 describe('Test DVM_Legal_Entity :', () => {
-  const testDVM = { lastname: 'Descartes', ordinal_number: '123456' };
-  const testDVM2 = { lastname: 'Voltaire', ordinal_number: '111111' }
+  const testDVM = { lastname: 'Descartes', firstname: 'René', ordinal_number: 123456, email: 'Descartes@gmail.com', password: '1234' };
+  const testDVM2 = { lastname: 'Voltaire', firstname: 'François-Marie', ordinal_number: 111111, email: 'Voltaire@gmail.com', password: 'hello' }
   beforeEach((done) =>
     connection.query('SET FOREIGN_KEY_CHECKS = 0', () =>
       connection.query('TRUNCATE DVM_Legal_Entity', () =>
@@ -70,7 +70,7 @@ describe('Test DVM_Legal_Entity :', () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .then(response => {
-        const expected = { id: expect.any(Number), firstname: null, lastname: 'Descartes', ordinal_number: 123456 }
+        const expected = {...testDVM, id: expect.any(Number) }
         expect(response.body[0]).toEqual(expected)
         done();
       });
@@ -90,14 +90,11 @@ describe('Test DVM_Legal_Entity :', () => {
   it('POST / Correct', (done) => {
     request(app)
       .post('/users')
-      .send({
-        lastname: "Rousseau",
-        ordinal_number: "654321"
-      })
+      .send(testDVM)
       .expect(201)
       .expect('Content-Type', /json/)
       .then(response => {
-        const expected = { id: expect.any(Number), lastname: "Rousseau", ordinal_number: "654321" }
+        const expected = {...testDVM, id: expect.any(Number), password: undefined}
         expect(response.body).toEqual(expected);
         done();
       });
@@ -106,10 +103,7 @@ describe('Test DVM_Legal_Entity :', () => {
     request(app)
       .put('/users/noId')
       .expect(404)
-      .expect('Content-Type', /json/)
       .then(response => {
-        const expected = { message: "No correct ID" }
-        expect(response.body).toEqual(expected);
         done();
       });
   });
@@ -134,10 +128,7 @@ describe('Test DVM_Legal_Entity :', () => {
         firstname: 'René'
       })
       .expect(200)
-      .expect('Content-Type', /json/)
       .then(response => {
-        const expected = { message: 'Changed row 1' }
-        expect(response.body).toEqual(expected)
         done();
       });
   });
