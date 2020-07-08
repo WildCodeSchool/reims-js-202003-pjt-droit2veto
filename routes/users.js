@@ -105,6 +105,17 @@ router.get('/:userId/activities', (req, res) => {
   });
 });
 
+router.post('/activities', (req, res) => {
+  formData = req.body;
+  connection.query('INSERT INTO DVM_Activities SET ?', formData, (err, results) => {
+    if (err) {
+      return (
+        res.status(500).json({ message: 'Error server' })
+      )
+    }
+    res.json(results);
+  });
+});
 
 
 module.exports = router;
