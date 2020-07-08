@@ -26,7 +26,7 @@ router.get('/:id', (req, res) => {
         res.status(404).json({ message: 'PurchasesOrders ID not found' })
       )
     }
-    res.json(results) 
+    res.json(results[0]) 
   })
 });
  
