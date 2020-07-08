@@ -29,7 +29,7 @@ router.get('/:id', (req, res) => {
       )
     }
     delete results[0].password
-    res.json(results)
+    res.json(results[0])
   });
 });
 
