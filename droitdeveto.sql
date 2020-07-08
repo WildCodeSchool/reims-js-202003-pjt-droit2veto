@@ -20,6 +20,7 @@ CREATE TABLE DVM_Legal_Entity (
   telephone_of_the_establishment VARCHAR(100),
   personal_phone VARCHAR(100),
   logo varchar(100),
+  admin TINYINT(1),
   ordinal_number VARCHAR(6) 
 );
 
