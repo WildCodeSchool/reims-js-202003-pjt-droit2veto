@@ -11,8 +11,8 @@ POST http://localhost:8000/users
 Content-Type: application/json
 
 {
-    "lastname": "Dupont",
-    "firstname": "Paul",
+    "email": "dupont@mail.com",
+    "password": "98765",
     "ordinal_number": "48545"
 }
 
@@ -31,7 +31,7 @@ PUT http://localhost:8000/users/1
 Content-Type: application/json
 
 {
-    "ordinal_number": "25100"
+    "firstname": "Nicolas"
 }
 
 ###

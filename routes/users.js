@@ -49,6 +49,7 @@ router.post('/', (req, res) => {
             res.status(500).json({ ...formData, id: results.insertId})
           );
         }
+        delete formData.password
         res.status(201).json({ ...formData, id: results.insertId });
       });
     } else {

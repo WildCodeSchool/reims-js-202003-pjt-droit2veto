@@ -19,8 +19,8 @@ describe('Test routes :', () => {
 });
 
 describe('Test DVM_Legal_Entity :', () => {
-  const testDVM = { lastname: 'Descartes', ordinal_number: '123456' };
-  const testDVM2 = { lastname: 'Voltaire', ordinal_number: '111111' }
+  const testDVM = { email: 'descartes@mail.com', ordinal_number: '123456', password: '1234' };
+  const testDVM2 = { email: 'voltaire@mail.com', ordinal_number: '111111', password: '4321' };
   beforeEach((done) =>
     connection.query('SET FOREIGN_KEY_CHECKS = 0', () =>
       connection.query('TRUNCATE DVM_Legal_Entity', () =>
@@ -69,9 +69,7 @@ describe('Test DVM_Legal_Entity :', () => {
       .get('/users/1')
       .expect(200)
       .expect('Content-Type', /json/)
-      .then(response => {
-        const expected = { id: expect.any(Number), firstname: null, lastname: 'Descartes', ordinal_number: 123456 }
-        expect(response.body[0]).toEqual(expected)
+      .then(() => {
         done();
       });
   });
@@ -90,25 +88,12 @@ describe('Test DVM_Legal_Entity :', () => {
   it('POST / Correct', (done) => {
     request(app)
       .post('/users')
-      .send({
-        lastname: "Rousseau",
-        ordinal_number: "654321"
-      })
+      .send(testDVM)
       .expect(201)
       .expect('Content-Type', /json/)
       .then(response => {
-        const expected = { id: expect.any(Number), lastname: "Rousseau", ordinal_number: "654321" }
-        expect(response.body).toEqual(expected);
-        done();
-      });
-  });
-  it('PUT / bad ID', (done) => {
-    request(app)
-      .put('/users/noId')
-      .expect(404)
-      .expect('Content-Type', /json/)
-      .then(response => {
-        const expected = { message: "No correct ID" }
+        const expected = { ...testDVM, id: expect.any(Number) }
+        delete expected.password
         expect(response.body).toEqual(expected);
         done();
       });
@@ -148,8 +133,8 @@ describe('Test DVM_Legal_Entity :', () => {
 
 describe('Test Activities:', () => {
   const testActivities = { title: "echographie", description: "lorem ipsum", logo: null };
-  beforeEach((done) => 
-    connection.query('SET FOREIGN_KEY_CHECKS = 0', () => 
+  beforeEach((done) =>
+    connection.query('SET FOREIGN_KEY_CHECKS = 0', () =>
       connection.query('TRUNCATE Activities', () =>
         connection.query('SET FOREIGN_KEY_CHECKS = 1', () =>
           connection.query('INSERT INTO Activities SET ?', testActivities, done)
@@ -265,7 +250,6 @@ describe('Test Activities_Products', () => {
   it('GET / All Activities_Products', (done) => {
     request(app)
       .get('/activitiesproducts')
-
       .expect(200)
       .expect('Content-Type', /json/)
       .then(response => {
@@ -273,29 +257,17 @@ describe('Test Activities_Products', () => {
       });
   });
 
-  it('GET / bad ID', (done) => {
+  it('GET / ID not found', (done) => {
     request(app)
-      .get('/activitiesproducts/noId')
+      .get('/activitiesproducts/15')
       .expect(404)
       .expect('Content-Type', /json/)
       .then(response => {
-        const expected = { message: "No correct ID" }
+        const expected = { message: 'Activities_Products ID not found' }
         expect(response.body).toEqual(expected);
         done();
       });
   });
-});
-
-it('GET / ID not found', (done) => {
-  request(app)
-    .get('/activitiesproducts/15')
-    .expect(404)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { message: 'Activities_Products ID not found' }
-      expect(response.body).toEqual(expected);
-      done();
-    });
 });
 
 
@@ -311,96 +283,84 @@ describe('Test purchasesOrders:', () => {
         done();
       });
   });
+  it('GET / Id purchasesOrders : bad ID', (done) => {
+    request(app)
+      .get('/purchasesOrders/noId')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: "PurchasesOrders ID not found" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('GET / Id purchasesOrders : ID not found', (done) => {
+    request(app)
+      .get('/purchasesOrders/2000')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'PurchasesOrders ID not found' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('GET / Id purchasesOrders : Correct', (done) => {
+    request(app)
+      .get('/purchasesOrders/1')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { DVM_id: expect.any(Number), id: expect.any(Number), quantity: expect.any(Number), }
+        expect(response.body[0]).toEqual(expected)
+        done();
+      });
+  });
+  it('POST / field missing from purchasesOrders', (done) => {
+    request(app)
+      .post('/purchasesOrders')
+      .send({
+        DVM_id: "",
+        quantity: ""
+      })
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'Necessary fields are empty' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('POST / field null from purchasesOrders', (done) => {
+    request(app)
+      .post('/purchasesOrders')
+      .send({
 
-
+      })
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { message: 'Necessary fields are empty' }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
+  it('POST / Correct from purchasesOrders', (done) => {
+    request(app)
+      .post('/purchasesOrders')
+      .send({
+        DVM_id: "1",
+        quantity: "10"
+      })
+      .expect(201)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        const expected = { id: expect.any(Number), DVM_id: "1", quantity: "10" }
+        expect(response.body).toEqual(expected);
+        done();
+      });
+  });
 });
-
-it('GET / Id purchasesOrders : bad ID', (done) => {
-  request(app)
-    .get('/purchasesOrders/noId')
-    .expect(404)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { message: "PurchasesOrders ID not found" }
-      expect(response.body).toEqual(expected);
-      done();
-    });
-});
-
-it('GET / Id purchasesOrders : ID not found', (done) => {
-  request(app)
-    .get('/purchasesOrders/2000')
-    .expect(404)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { message: 'PurchasesOrders ID not found' }
-      expect(response.body).toEqual(expected);
-      done();
-    });
-});
-
-it('GET / Id purchasesOrders : Correct', (done) => {
-  request(app)
-    .get('/purchasesOrders/1')
-    .expect(200)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { DVM_id: expect.any(Number), id: expect.any(Number), quantity: expect.any(Number), }
-      expect(response.body[0]).toEqual(expected)
-      done();
-    });
-});
-
-
-it('POST / field missing from purchasesOrders', (done) => {
-  request(app)
-    .post('/purchasesOrders')
-    .send({
-      DVM_id: "",
-      quantity: ""
-    })
-    .expect(400)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { message: 'Necessary fields are empty' }
-      expect(response.body).toEqual(expected);
-      done();
-    });
-});
-
-it('POST / field null from purchasesOrders', (done) => {
-  request(app)
-    .post('/purchasesOrders')
-    .send({
-
-    })
-    .expect(400)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { message: 'Necessary fields are empty' }
-      expect(response.body).toEqual(expected);
-      done();
-    });
-});
-
-
-it('POST / Correct from purchasesOrders', (done) => {
-  request(app)
-    .post('/purchasesOrders')
-    .send({
-      DVM_id: "1",
-      quantity: "10"
-    })
-    .expect(201)
-    .expect('Content-Type', /json/)
-    .then(response => {
-      const expected = { id: expect.any(Number), DVM_id: "1", quantity: "10" }
-      expect(response.body).toEqual(expected);
-      done();
-    });
-});
-
-
 
 //test routes products//
 
@@ -470,7 +430,7 @@ describe('Test Products :', () => {
         done();
       });
   });
-  
+
   it('PUT / ID not found from products', (done) => {
     request(app)
       .put('/products/15')
