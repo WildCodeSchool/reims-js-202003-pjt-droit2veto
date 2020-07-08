@@ -129,3 +129,6 @@ Content-Type: application/json
     "DVM_id": 2,
     "Activities_id": 6
 }
+
+###DELETE
+DELETE http://localhost:8000/users/2/activities/6
