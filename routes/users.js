@@ -34,7 +34,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  let createdMail = 0
+
   const formData = req.body;
   
   if (formData.ordinal_number == null || formData.email == null || formData.password == null) {
@@ -43,7 +43,7 @@ router.post('/', (req, res) => {
     );
   }
 
-  connection.query('SELECT * from DVM_Legal_Entity', (errAll, resultsAll) => {
+  connection.query('SELECT * from DVM_Legal_Entity WHERE email = ?',formData.email , (errAll, resultsAll) => {
 
     if (errAll) {
       return (
@@ -51,13 +51,7 @@ router.post('/', (req, res) => {
       )
     }
 
-    resultsAll.map((user) => {
-      if (user.email === formData.email) {
-        return createdMail = 1
-      }
-    })
-
-    if (createdMail === 0) {
+    if (resultsAll.length === 0) {
       bcrypt.hash(formData.password, 10, function (err, hash) {
         formData.password = hash;
         if (res) {
