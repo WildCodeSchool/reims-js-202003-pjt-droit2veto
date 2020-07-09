@@ -49,6 +49,7 @@ router.post('/', (req, res) => {
             res.status(500).json({ ...formData, id: results.insertId})
           );
         }
+        delete formData.password
         res.status(201).json({ ...formData, id: results.insertId });
       });
     } else {
@@ -105,6 +106,29 @@ router.get('/:userId/activities', (req, res) => {
   });
 });
 
+router.post('/:userId/activities', (req, res) => {
+  formData = req.body;
+  connection.query('INSERT INTO DVM_Activities SET ?', formData, (err, results) => {
+    if (err) {
+      return (
+        res.status(500).json({ message: 'Error server' })
+      )
+    }
+    res.json(results);
+  });
+});
+
+router.delete('/:userId/activities/:activityId', (req, res) => {
+  const { userId, activityId } = req. params;
+  connection.query('DELETE FROM DVM_Activities WHERE DVM_id = ? AND Activities_id = ?',  [userId, activityId], (err, results) => {
+    if (err) {
+      return (
+        res.status(500).json({ message: 'Error server' })
+      )
+    }
+    res.json(results);
+  });
+});
 
 
 module.exports = router;

@@ -11,8 +11,8 @@ POST http://localhost:8000/users
 Content-Type: application/json
 
 {
-    "lastname": "Dupont",
-    "firstname": "Paul",
+    "email": "dupont@mail.com",
+    "password": "98765",
     "ordinal_number": "48545"
 }
 
@@ -119,4 +119,17 @@ Content-Type: application/json
 
 #########################################
 
-GET http://localhost:8000/usersactivities/2/activities
+GET http://localhost:8000/users/2/activities
+
+
+### POST
+POST http://localhost:8000/users/2/activities
+Content-Type: application/json
+
+{
+    "DVM_id": 2,
+    "Activities_id": 6
+}
+
+###DELETE
+DELETE http://localhost:8000/users/2/activities/6
