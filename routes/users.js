@@ -34,29 +34,53 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+  let createdMail = 0
   const formData = req.body;
+  
   if (formData.ordinal_number == null || formData.email == null || formData.password == null) {
     return (
       res.status(400).json({ message: "Necessary fields are empty" })
     );
   }
-  bcrypt.hash(formData.password, 10, function (err, hash) {
-    formData.password = hash;
-    if (res) {
-      connection.query('INSERT INTO DVM_Legal_Entity SET ?', formData, (err, results) => {
-        if (err) {
-          return (
-            res.status(500).json({ ...formData, id: results.insertId})
-          );
-        }
-        delete formData.password
-        res.status(201).json({ ...formData, id: results.insertId });
-      });
-    } else {
-      res.status(500).json({ message: "pass no hash" });
+
+  connection.query('SELECT * from DVM_Legal_Entity', (errAll, resultsAll) => {
+
+    if (errAll) {
+      return (
+        res.status(500)
+      )
     }
-  });
-});
+
+    resultsAll.map((user) => {
+      if (user.email === formData.email) {
+        return createdMail = 1
+      }
+    })
+
+    if (createdMail === 0) {
+      bcrypt.hash(formData.password, 10, function (err, hash) {
+        formData.password = hash;
+        if (res) {
+          connection.query('INSERT INTO DVM_Legal_Entity SET ?', formData, (errInsert, results) => {
+            if (errInsert) {
+              return (
+                res.status(500).json({ ...formData })
+              );
+            }
+            delete formData.password
+            return res.status(201).json({ ...formData, id: results.insertId });
+          });
+        } else {
+          res.status(500).json({ message: "pass no hash" });
+        }
+      })
+    } else {
+      return res.status(400).json({ message: "user already exist" })
+    }
+  })
+})
+
+
 
 router.put('/:id', (req, res) => {
 
