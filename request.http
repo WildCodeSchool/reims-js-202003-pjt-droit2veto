@@ -27,11 +27,12 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8000/users/1
+PUT http://localhost:8000/users/2
 Content-Type: application/json
 
 {
-    "firstname": "Nicolas"
+    "ordinal_number": "25100",
+    "admin": 1
 }
 
 ###
