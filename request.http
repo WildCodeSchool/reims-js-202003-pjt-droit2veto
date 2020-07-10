@@ -11,7 +11,7 @@ POST http://localhost:8000/users
 Content-Type: application/json
 
 {
-    "email": "dupont@mail.com",
+    "email": "duponti@mail.com",
     "password": "98765",
     "ordinal_number": "48545"
 }
