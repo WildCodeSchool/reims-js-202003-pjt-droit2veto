@@ -133,3 +133,10 @@ Content-Type: application/json
 
 ###DELETE
 DELETE http://localhost:8000/users/2/activities/6
+
+###Upload
+
+POST http://localhost:8000/uploadlogo
+Content-Type: application/json
+
+{}
