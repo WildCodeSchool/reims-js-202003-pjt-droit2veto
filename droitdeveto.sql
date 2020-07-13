@@ -21,7 +21,7 @@ CREATE TABLE DVM_Legal_Entity (
   personal_phone VARCHAR(100),
   logo varchar(100),
   admin TINYINT(1),
-  ordinal_number VARCHAR(6) 
+  ordinal_number INT(7) 
 );
 
 CREATE TABLE Activities (
