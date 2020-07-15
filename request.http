@@ -133,3 +133,9 @@ Content-Type: application/json
 
 ###DELETE
 DELETE http://localhost:8000/users/2/activities/6
+
+###
+POST http://localhost:8000/generatePdf/2/activities
+
+###
+GET http://localhost:8000/generatePdf/2/pdf
