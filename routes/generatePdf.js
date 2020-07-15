@@ -12,7 +12,6 @@ router.post('/:userId/activities', (req, res) => {
         res.status(500).json({ message: 'Error server' })
       )
     }
-    results = JSON.stringify(results);
     pdf.create(pdfTemplate(results), {}).toFile(`${__dirname}/result.pdf`, (err) => {
       console.log(results)
       if(err) {
