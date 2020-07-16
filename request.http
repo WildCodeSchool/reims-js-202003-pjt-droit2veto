@@ -142,3 +142,9 @@ POST http://localhost:8000/generatePdf/2/activities
 
 ###GET
 GET http://localhost:8000/generatePdf/2/pdf
+###Upload
+
+POST http://localhost:8000/uploadlogo
+Content-Type: application/json
+
+{}
