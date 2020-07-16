@@ -33,6 +33,24 @@ router.get('/:id', (req, res) => {
   });
 });
 
+
+router.get('/admin/:id', ( req, res ) => {
+  const { id }  = req.params
+  connection.query('SELECT admin from DVM_Legal_Entity WHERE id = ?', id, (err, results) => {
+    if (err) {
+      return (
+        res.status(500).json({ message: 'Internal server error' })
+      );
+    }
+    if (results.length === 0) {
+      return (
+        res.status(404).json({ message: 'User ID not found' })
+      );
+    }
+    res.json(results[0])
+  });
+}); 
+
 router.post('/', (req, res) => {
 
   const formData = req.body;
@@ -147,6 +165,8 @@ router.delete('/:userId/activities/:activityId', (req, res) => {
     res.json(results);
   });
 });
+
+
 
 
 module.exports = router;
