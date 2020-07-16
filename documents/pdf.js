@@ -1,7 +1,7 @@
-module.exports = (activities, user) => {
+module.exports = (activities, users) => {
   let adress2 = '';
-  if (user[0].address_of_establishment_2 !== null) {
-    adress2 = `<li>${user[0].address_of_establishment_2}</li>`
+  if (users.address_of_establishment_2 !== null) {
+    adress2 = `<li>${users.address_of_establishment_2}</li>`
   }
   return`
     <!DOCTYPE html>
@@ -60,12 +60,12 @@ module.exports = (activities, user) => {
         <div>
           <header>
             <ul>
-              <h1>${user[0].establishment_name}</h1>
-              <li>${user[0].address_of_establishment_1}</li>
+              <h1>${users.establishment_name}</h1>
+              <li>${users.address_of_establishment_1}</li>
               ${adress2}
-              <li>${user[0].city}, ${user[0].postal_code}</li>
-              <li>${user[0].telephone_of_the_establishment}</li>
-              <li><img src="${user[0].logo}"/></li>
+              <li>${users.city}, ${users.postal_code}</li>
+              <li>${users.telephone_of_the_establishment}</li>
+              <li><img src="${users.logo}"/></li>
             </ul>
           </header>
             <h2>Les activités de la clinique</h2>
@@ -74,12 +74,12 @@ module.exports = (activities, user) => {
             }, '')}</ul>
           <footer>
             <ul>
-              <p>${user[0].establishment_name}</p>
-              <li>${user[0].address_of_establishment_1}</li>
+              <p>${users.establishment_name}</p>
+              <li>${users.address_of_establishment_1}</li>
               ${adress2}
-              <li>${user[0].city}, ${user[0].postal_code}</li>
-              <li>${user[0].telephone_of_the_establishment}</li>
-              <li><img src="${user[0].logo}"/></li>
+              <li>${users.city}, ${users.postal_code}</li>
+              <li>${users.telephone_of_the_establishment}</li>
+              <li><img src="${users.logo}"/></li>
           </ul>
           </footer>
         </div>

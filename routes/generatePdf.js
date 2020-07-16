@@ -12,13 +12,13 @@ router.post('/:userId/activities', (req, res) => {
         res.status(500).json({ message: 'Error server' })
       )
     }
-  connection.query('SELECT * FROM DVM_Legal_Entity WHERE id = ?', userId, (err, user) => {
+  connection.query('SELECT * FROM DVM_Legal_Entity WHERE id = ?', userId, (err, users) => {
     if (err) {
       return (
         res.status(500).json({ message: 'Error server' })
       )
     }
-    pdf.create(pdfTemplate(activities, user), {}).toFile(`${__dirname}/result.pdf`, (err) => {
+    pdf.create(pdfTemplate(activities, users[0]), {}).toFile(`${__dirname}/result.pdf`, (err) => {
       if(err) {
         return res.sendStatus(500)
       }
