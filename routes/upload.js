@@ -34,4 +34,33 @@ router.post('/:id', upload.single('monfichier'), (req, res, next) => {
   });
 })
 
+router.post('/activity/:id', upload.single('adminLogoUpload'), (req, res, next) => {
+
+  const today = Date.now();
+  const { id } = req.params
+
+  const searchTerm = '.';
+  const originalName = req.file.originalname
+  const extensionName = originalName.slice(originalName.indexOf(searchTerm, (originalName.length - 4)));
+  const fileName = `${id}-${today}${extensionName}`
+
+  const formData = { logo: `/logo/${fileName}`}
+
+  fs.rename(req.file.path, 'public/logo/' + fileName , (err) => {
+    if (err) {
+        res.send('problème durant le déplacement');
+    } else {
+        res.send('Fichier uploadé avec succès');
+    }
+  });
+  
+  connection.query('UPDATE Activities SET ? WHERE id = ?', [formData, id], (err, results) => {
+    if (err) {
+      return (
+        res.status(500).json({ message: "Error server" })
+      )
+    }
+  });
+})
+
 module.exports = router;
