@@ -8,25 +8,27 @@ USE Droit2Veto;
 
 CREATE TABLE DVM_Legal_Entity ( 
   id INT AUTO_INCREMENT PRIMARY KEY, 
-  email VARCHAR(100) NOT NULL,
-  password VARCHAR(100)NOT NULL,
-  lastname VARCHAR(100), 
-  firstname VARCHAR(100),
-  establishment_name VARCHAR(100),
-  address_of_establishment_1 VARCHAR (100),
-  address_of_establishment_2 VARCHAR (100),
-  city VARCHAR(100),
-  postal_code VARCHAR(100),
-  telephone_of_the_establishment VARCHAR(100),
-  personal_phone VARCHAR(100),
-  logo varchar(100),
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255)NOT NULL,
+  lastname VARCHAR(255), 
+  firstname VARCHAR(255),
+  establishment_name VARCHAR(255),
+  address_of_establishment_1 VARCHAR (255),
+  address_of_establishment_2 VARCHAR (255),
+  city VARCHAR(255),
+  postal_code VARCHAR(255),
+  telephone_of_the_establishment VARCHAR(255),
+  personal_phone VARCHAR(255),
+  logo varchar(255),
   admin TINYINT(1),
-  ordinal_number INT(7) 
+  ordinal_number INT(7),
+  color_text VARCHAR(255),
+  color_background VARCHAR(255)
 );
 
 CREATE TABLE Activities (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL, 
-  title VARCHAR(100) NOT NULL,
+  title VARCHAR(255) NOT NULL,
   description TEXT, 
   logo VARCHAR(255)
 );
