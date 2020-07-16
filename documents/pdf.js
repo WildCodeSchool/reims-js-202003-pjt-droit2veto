@@ -43,6 +43,16 @@ module.exports = (activities, user) => {
         .description {
           font-size: 0.6rem;
         }
+        .logoActivity {
+          height: 6vw;
+          margin-right: 0.5rem;
+        }
+        .logoUser{
+          height: 20vh;
+          position: absolute;
+          top: 10vh;
+          right: 10vw;
+        }
         footer {
           background-color: #003366;
           color: white;
@@ -65,12 +75,12 @@ module.exports = (activities, user) => {
               ${adress2}
               <li>${user.city}, ${user.postal_code}</li>
               <li>${user.telephone_of_the_establishment}</li>
-              <li><img src="${user.logo}"/></li>
+              <li><img src="http://localhost:8000/${user.logo}" alt="logo" class="logoUser" /></li>
             </ul>
           </header>
             <h2>Les activités de la clinique</h2>
             <ul>${activities.reduce((acc, currentValue) => {
-              return acc+'<li><span class="title">'+currentValue.title+'</span><br><span class="description">'+currentValue.description+'</span></li><br><br>'
+              return acc+'<li>'+`<img src="http://localhost:8000/${currentValue.logo}" alt="" class="logoActivity" />`+'<span class="title">'+currentValue.title+'</span><br><span class="description">'+currentValue.description+'</span></li><br><br>'
             }, '')}</ul>
           <footer>
             <ul>
