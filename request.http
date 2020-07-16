@@ -148,3 +148,7 @@ POST http://localhost:8000/uploadlogo
 Content-Type: application/json
 
 {}
+
+
+###GET admin
+GET http://localhost:8000/users/admin/2
