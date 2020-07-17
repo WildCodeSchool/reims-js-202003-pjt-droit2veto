@@ -20,8 +20,8 @@ module.exports = (activities, user) => {
           position: relative;
         }
         header {
-          background-color: #003366;
-          color: white;
+          background-color: ${user.color_background};
+          color: ${user.color_text};
           padding: 0.5rem;
           text-align: center;
         }
@@ -54,8 +54,8 @@ module.exports = (activities, user) => {
           right: 10vw;
         }
         footer {
-          background-color: #003366;
-          color: white;
+          background-color: ${user.color_background};
+          color: ${user.color_text};
           font-size: 0.6rem;
           padding: 0.5rem;
           text-align: center;
@@ -75,7 +75,7 @@ module.exports = (activities, user) => {
               ${adress2}
               <li>${user.city}, ${user.postal_code}</li>
               <li>${user.telephone_of_the_establishment}</li>
-              <li><img src="http://localhost:8000/${user.logo}" alt="logo" class="logoUser" /></li>
+              <li><img src="http://localhost:8000/${user.logo}" alt="" class="logoUser" /></li>
             </ul>
           </header>
             <h2>Les activités de la clinique</h2>
